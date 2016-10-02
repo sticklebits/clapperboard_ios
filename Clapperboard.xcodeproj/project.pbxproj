@@ -16,6 +16,7 @@
 		AA89A2011DA164400064D142 /* ClapperboardUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA89A2001DA164400064D142 /* ClapperboardUITests.swift */; };
 		AA89A2111DA171290064D142 /* APIConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA89A2101DA171290064D142 /* APIConnector.swift */; };
 		AA89A2131DA171950064D142 /* OMDbAPIConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA89A2121DA171950064D142 /* OMDbAPIConnector.swift */; };
+		AA89A2151DA17C8D0064D142 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA89A2141DA17C8D0064D142 /* Movie.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		AA89A2021DA164400064D142 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA89A2101DA171290064D142 /* APIConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = APIConnector.swift; path = API/APIConnector.swift; sourceTree = "<group>"; };
 		AA89A2121DA171950064D142 /* OMDbAPIConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OMDbAPIConnector.swift; path = API/OMDbAPIConnector.swift; sourceTree = "<group>"; };
+		AA89A2141DA17C8D0064D142 /* Movie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Movie.swift; path = Models/Movie.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 		AA89A1DF1DA164400064D142 /* Clapperboard */ = {
 			isa = PBXGroup;
 			children = (
+				AA89A2161DA17C910064D142 /* Models */,
 				AA89A20E1DA170F00064D142 /* API Connectors */,
 				AA89A1E01DA164400064D142 /* AppDelegate.swift */,
 				AA89A1E21DA164400064D142 /* ViewController.swift */,
@@ -145,6 +148,14 @@
 				AA89A2121DA171950064D142 /* OMDbAPIConnector.swift */,
 			);
 			name = "OMDb API";
+			sourceTree = "<group>";
+		};
+		AA89A2161DA17C910064D142 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AA89A2141DA17C8D0064D142 /* Movie.swift */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -288,6 +299,7 @@
 				AA89A2111DA171290064D142 /* APIConnector.swift in Sources */,
 				AA89A1E31DA164400064D142 /* ViewController.swift in Sources */,
 				AA89A1E11DA164400064D142 /* AppDelegate.swift in Sources */,
+				AA89A2151DA17C8D0064D142 /* Movie.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

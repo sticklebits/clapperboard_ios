@@ -13,20 +13,50 @@ class OMDbAPIConnector: APIConnector {
     var delegate: OMDbAPIConnectorDelegate?
     
     convenience init() {
-        self.init(base: URL(fileURLWithPath: "http://omdbapi.com"))
+        self.init(base: URL(string: "https://omdbapi.com")!)
     }
     
     func searchForMovie(title: String) {
-        if (title.characters.count == 0) {
-            let error = NSError(domain: "omdb", code: 0, userInfo: [NSLocalizedDescriptionKey:"Empty search string"])
-            delegate?.omdbAPIConnector(self, didReceiveError: error)
+        if (title.characters.count < 3) { return }
+        sendRequest(endpoint: "", method: .get, request: request(title: title, year: ""))
+    }
+    
+    override func didReceive(response: [String:Any]?) {
+        if response == nil { return }
+        
+        guard let status = response?["Response"] as? String else {
             return
         }
-        delegate?.omdbAPIConnector(self, didReceiveMovieDetails: ["movie":"Film found"])
+        
+        DispatchQueue.main.async {
+            if status == "True" {
+                let movie = Movie(fromJSON: response!)
+                self.delegate?.omdbAPIConnector(self, didFindMovie: movie)
+            } else {
+                self.delegate?.omdbAPIConnector(self, didFindMovie: nil)
+            }
+        }
+    }
+    
+    override func didReceive(error: Error) {
+        delegate?.omdbAPIConnector(self, didReceiveError: error)
     }
 }
 
+
+// MARK: - API Requests
+
+extension OMDbAPIConnector {
+    
+    func request(title: String, year: String) -> [String:String] {
+        return ["t":title, "y":year, "plot":"full", "r":"json"]
+    }
+}
+
+
+// MARK: - OBDbAPIConnectorDelegate protocol
+
 protocol OMDbAPIConnectorDelegate {
-    func omdbAPIConnector(_ omdbAPIConnector:OMDbAPIConnector, didReceiveMovieDetails movieDetails:[String:Any])
-    func omdbAPIConnector(_ omdbAPIConnector:OMDbAPIConnector, didReceiveError error:NSError)
+    func omdbAPIConnector(_ omdbAPIConnector:OMDbAPIConnector, didFindMovie:Movie?)
+    func omdbAPIConnector(_ omdbAPIConnector:OMDbAPIConnector, didReceiveError error:Error)
 }

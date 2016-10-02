@@ -34,11 +34,32 @@ class ViewController: UIViewController {
 
 extension ViewController: OMDbAPIConnectorDelegate {
     
-    func omdbAPIConnector(_ omdbAPIConnector: OMDbAPIConnector, didReceiveMovieDetails movieDetails: [String : Any]) {
-        print("\(movieDetails["movie"])")
+    func omdbAPIConnector(_ omdbAPIConnector: OMDbAPIConnector, didFindMovie movie: Movie?) {
+        
+        if (movie == nil) {
+            let alertController = UIAlertController(title: "Not found", message: "Could not find the movie you were looking for...", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: { (alertAction) in
+                alertController.dismiss(animated: true, completion: nil)
+            }))
+            present(alertController, animated: true, completion: nil)
+            return
+        }
+        
+        print("\(movie!.title)")
+        
+        let posterURL = URL(string: movie!.poster)!
+        
+        guard let posterData = try? Data(contentsOf: posterURL) else {
+            print("Couldn't load poster...")
+            return
+        }
+        
+        DispatchQueue.main.async {
+            self.posterImageView.image = UIImage(data: posterData)
+        }
     }
     
-    func omdbAPIConnector(_ omdbAPIConnector: OMDbAPIConnector, didReceiveError error: NSError) {
+    func omdbAPIConnector(_ omdbAPIConnector: OMDbAPIConnector, didReceiveError error: Error) {
         print("\(error.localizedDescription)")
     }
 }
