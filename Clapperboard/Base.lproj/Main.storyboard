@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Clapperboard" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -16,11 +19,73 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LEv-de-RuA">
+                                <subviews>
+                                    <view contentMode="scaleToFill" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="647" translatesAutoresizingMaskIntoConstraints="NO" id="b0b-J8-lfT">
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pbW-ly-Jl4" userLabel="Poster Artwork">
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="pbW-ly-Jl4" secondAttribute="height" multiplier="1:1" id="pc3-ha-LGI"/>
+                                                </constraints>
+                                            </imageView>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter movie title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nCH-aE-f2j" userLabel="Search Input">
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="48" id="Ep3-Dh-qBt"/>
+                                                </constraints>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FMa-9K-Zp2">
+                                                <state key="normal" title="Search"/>
+                                                <connections>
+                                                    <action selector="searchButtonWasTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ydp-u6-WMe"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="pbW-ly-Jl4" firstAttribute="top" secondItem="b0b-J8-lfT" secondAttribute="top" constant="12" id="14H-nB-n9r"/>
+                                            <constraint firstItem="FMa-9K-Zp2" firstAttribute="top" secondItem="nCH-aE-f2j" secondAttribute="top" id="2j4-sC-gKn"/>
+                                            <constraint firstAttribute="trailing" secondItem="pbW-ly-Jl4" secondAttribute="trailing" constant="12" id="7io-MJ-ehV"/>
+                                            <constraint firstItem="nCH-aE-f2j" firstAttribute="leading" secondItem="pbW-ly-Jl4" secondAttribute="leading" id="K1H-o1-cU5"/>
+                                            <constraint firstItem="pbW-ly-Jl4" firstAttribute="leading" secondItem="b0b-J8-lfT" secondAttribute="leading" constant="12" id="Tqg-YY-Sgb"/>
+                                            <constraint firstItem="FMa-9K-Zp2" firstAttribute="trailing" secondItem="pbW-ly-Jl4" secondAttribute="trailing" id="WFj-cE-vuK"/>
+                                            <constraint firstItem="nCH-aE-f2j" firstAttribute="top" secondItem="pbW-ly-Jl4" secondAttribute="bottom" constant="8" id="X4d-KV-bKb"/>
+                                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="nCH-aE-f2j" secondAttribute="bottom" constant="12" id="fYW-4s-gwy"/>
+                                            <constraint firstItem="FMa-9K-Zp2" firstAttribute="leading" secondItem="nCH-aE-f2j" secondAttribute="trailing" constant="8" id="ip8-bU-3RS"/>
+                                            <constraint firstItem="FMa-9K-Zp2" firstAttribute="bottom" secondItem="nCH-aE-f2j" secondAttribute="bottom" id="mBf-SD-yGP"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="b0b-J8-lfT" secondAttribute="bottom" id="PK9-7c-TDR"/>
+                                    <constraint firstItem="b0b-J8-lfT" firstAttribute="top" secondItem="LEv-de-RuA" secondAttribute="top" id="VQr-JF-HrW"/>
+                                    <constraint firstAttribute="trailing" secondItem="b0b-J8-lfT" secondAttribute="trailing" id="jEy-1I-r9g"/>
+                                    <constraint firstItem="b0b-J8-lfT" firstAttribute="leading" secondItem="LEv-de-RuA" secondAttribute="leading" id="nmL-7C-aV7"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="LEv-de-RuA" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="EhE-Hc-ihT"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="b0b-J8-lfT" secondAttribute="trailing" constant="-16" id="V2r-xZ-8Ti"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="LEv-de-RuA" secondAttribute="bottom" id="bAf-RS-eiY"/>
+                            <constraint firstItem="b0b-J8-lfT" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="jVf-GP-kiL"/>
+                            <constraint firstItem="LEv-de-RuA" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="oVe-hq-Vht"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="LEv-de-RuA" secondAttribute="trailing" constant="-16" id="psT-Ew-u9o"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="posterImageView" destination="pbW-ly-Jl4" id="XOg-v1-8W5"/>
+                        <outlet property="searchButton" destination="FMa-9K-Zp2" id="x8s-9R-XJK"/>
+                        <outlet property="titleInputField" destination="nCH-aE-f2j" id="UB7-qg-Png"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="32.799999999999997" y="37.331334332833585"/>
         </scene>
     </scenes>
 </document>
