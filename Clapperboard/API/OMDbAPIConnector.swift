@@ -16,9 +16,11 @@ class OMDbAPIConnector: APIConnector {
         self.init(base: URL(string: "https://omdbapi.com")!)
     }
     
-    func searchForMovie(title: String) {
+    func searchForMovie(title: String, searchType: MovieRequest.SearchType) {
         if (title.characters.count < 3) { return }
-        sendRequest(endpoint: "", method: .get, request: request(title: title, year: ""))
+        let request = MovieRequest(searchType: searchType)
+        request.title = title
+        sendRequest(endpoint: "", method: .get, request: request.asDictionary())
     }
     
     override func didReceive(response: [String:Any]?) {
@@ -40,16 +42,6 @@ class OMDbAPIConnector: APIConnector {
     
     override func didReceive(error: Error) {
         delegate?.omdbAPIConnector(self, didReceiveError: error)
-    }
-}
-
-
-// MARK: - API Requests
-
-extension OMDbAPIConnector {
-    
-    func request(title: String, year: String) -> [String:String] {
-        return ["t":title, "y":year, "plot":"full", "r":"json"]
     }
 }
 

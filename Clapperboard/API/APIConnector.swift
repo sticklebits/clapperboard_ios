@@ -15,6 +15,7 @@ class APIConnector: NSObject {
         case post = "POST"
     }
     
+
     var base: URL
     
     private(set) var endpoint: String? {
@@ -30,6 +31,11 @@ class APIConnector: NSObject {
     }
     
     private(set) var response: [String:Any]?
+    private(set) var isWorking = false {
+        didSet {
+            didChange(working: isWorking)
+        }
+    }
     
     init(base: URL) {
         self.base = base
@@ -52,6 +58,8 @@ class APIConnector: NSObject {
         
         let task = session.dataTask(with: urlRequest as URLRequest) { (data, response, error) in
             
+            self.isWorking = false
+            
             if (error != nil) {
                 self.didReceive(error: error!)
             } else {
@@ -64,15 +72,8 @@ class APIConnector: NSObject {
             }
         }
         
+        isWorking = true
         task.resume()
-    }
-
-    func didReceive(response: [String:Any]?) {
-        
-    }
-    
-    func didReceive(error: Error) {
-        
     }
     
     func requestAsHTTPString() -> String {
@@ -84,5 +85,23 @@ class APIConnector: NSObject {
             prefix = "&"
         }
         return "?" + requestString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+    }
+}
+
+
+// MARK: - Empty functions for subclass override
+
+extension APIConnector {
+    
+    func didReceive(response: [String:Any]?) {
+        
+    }
+    
+    func didReceive(error: Error) {
+        
+    }
+    
+    func didChange(working: Bool) {
+        
     }
 }

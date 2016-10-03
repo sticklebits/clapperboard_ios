@@ -27,7 +27,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func searchButtonWasTouched(_ sender: UIButton) {
-        omdbAPI.searchForMovie(title: titleInputField.text!)
+        omdbAPI.searchForMovie(title: titleInputField.text!, searchType: .multi)
     }
 }
 
