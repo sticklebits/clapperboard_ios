@@ -35,5 +35,6 @@ class Movie: NSObject {
         if let title = json["Title"] as? String { self.title = title }
         if let year = json["Year"] as? String { self.year = year }
         if let poster = json["Poster"] as? String { self.poster = poster }
+        if let imdbID = json["imdbID"] as? String { self.imdbID = imdbID }
     }
 }

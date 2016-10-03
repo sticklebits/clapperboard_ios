@@ -10,49 +10,106 @@ import UIKit
 
 class SearchResultsViewController: UIViewController {
 
+    var delegate: SearchResultsViewControllerDelegate?
+    
     var movies: [Movie] = [] {
         didSet {
-            tableView.reloadData()
+            refreshImageStore()
+            collectionView.reloadData()
         }
     }
     
-    let tableView = UITableView()
+    let imageStore = IndexedImageStore(blankImage: UIImage(named: "no_movie_image"), diskPathToCache: "movie_poster_image_store")
+    private let collectionView: UICollectionView!
     
+    required init() {
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: 180.0, height: 320.0)
+        layout.sectionInset = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
+        collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: 180.0, height: 320.0)
+        layout.sectionInset = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
+        collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
+        super.init(coder: aDecoder)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Search Results"
-        setupTableView()
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelButtonWasTouched(sender:)))
+        setupCollectionView()
     }
 
-    func setupTableView() {
-        tableView.dataSource = self
-//        tableView.delegate = self
-        tableView.register(UITableViewCell.classForCoder(), forCellReuseIdentifier: String(describing: UITableViewCell.classForCoder()))
-        view.addSubview(tableView)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        view.addConstraint(NSLayoutConstraint(item: tableView, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1.0, constant: 0.0))
-        view.addConstraint(NSLayoutConstraint(item: tableView, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1.0, constant: 0.0))
-        view.addConstraint(NSLayoutConstraint(item: tableView, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1.0, constant: 0.0))
-        view.addConstraint(NSLayoutConstraint(item: tableView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: 0.0))
+    func setupCollectionView() {
+        collectionView.backgroundColor = UIColor.white
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(UINib(nibName: "MovieCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: String(describing: MovieCollectionViewCell.classForCoder()))
+        view.addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        view.addConstraint(NSLayoutConstraint(item: collectionView, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1.0, constant: 0.0))
+        view.addConstraint(NSLayoutConstraint(item: collectionView, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1.0, constant: 0.0))
+        view.addConstraint(NSLayoutConstraint(item: collectionView, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1.0, constant: 0.0))
+        view.addConstraint(NSLayoutConstraint(item: collectionView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: 0.0))
+    }
+    
+    func refreshImageStore() {
+        var item = 0
+        movies.forEach { (movie) in
+            let indexPath = IndexPath(item: item, section: 0)
+            imageStore.loadImage(urlString: movie.poster, forIndexPath: indexPath) { (image, indexPath) in
+                if let cell = self.collectionView.cellForItem(at: indexPath) as? MovieCollectionViewCell {
+                    cell.moviePosterImageView.image = image
+                }
+            }
+            item += 1
+        }
+    }
+    
+    override func viewWillLayoutSubviews() {
+        collectionView.frame = view.frame
+    }
+    
+    func cancelButtonWasTouched(sender: AnyObject) {
+        delegate?.searchResultsViewControllerDidCancel(viewController: self)
     }
 }
 
 
-extension SearchResultsViewController: UITableViewDataSource {
+extension SearchResultsViewController: UICollectionViewDataSource {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return section == 0 ? movies.count : 0
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: UITableViewCell.classForCoder())) {
-            cell.textLabel?.text = movies[indexPath.row].title
-            return cell
-        }
-        return UITableViewCell()
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: MovieCollectionViewCell.classForCoder()), for: indexPath) as! MovieCollectionViewCell
+        let movie = movies[indexPath.row]
+        cell.movieTitleLabel.text = movie.title
+        cell.moviePosterImageView.image = imageStore.image(atIndexPath: indexPath)
+        return cell
     }
+}
+
+extension SearchResultsViewController: UICollectionViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section != 0 { return }
+        delegate?.searchResultsViewController(viewController: self, didSelectMovie: movies[indexPath.row])
+    }
+    
+}
+
+protocol SearchResultsViewControllerDelegate {
+    func searchResultsViewController(viewController: SearchResultsViewController, didSelectMovie movie: Movie)
+    func searchResultsViewControllerDidCancel(viewController: SearchResultsViewController)
 }

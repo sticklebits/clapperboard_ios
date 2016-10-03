@@ -20,8 +20,10 @@ class MovieRequest: APIRequest {
     var format = ""
     var plot = "full"
     var dataFormat = "r"
+    var imdbID = ""
     
-    init(searchType: SearchType) {
+    init(title: String, searchType: SearchType) {
+        self.title = title
         self.searchType = searchType
         if searchType == .multi {
             plot = "short"
@@ -29,7 +31,16 @@ class MovieRequest: APIRequest {
         super.init()
     }
     
-    func asDictionary() -> [String:String] {
-        return ["s":title, "type":format, "plot":plot, "r":dataFormat]
+    init(imdbID: String) {
+        self.imdbID = imdbID
+        searchType = .single
+        plot = "full"
+        super.init()
+    }
+    
+    override func dictionary() -> [String:String] {
+        var returnDictionary = ["s":title, "type":format, "plot":plot, "r":dataFormat]
+        if (imdbID.characters.count > 0) { returnDictionary[imdbID] = imdbID }
+        return returnDictionary
     }
 }

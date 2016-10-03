@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="MovieCollectionViewCell" customModule="Clapperboard" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="157" height="261"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ptf-wQ-sd9">
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mv1-eX-dMF">
+                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                    <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="ptf-wQ-sd9" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="1kS-nG-2zb"/>
+                <constraint firstItem="ptf-wQ-sd9" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="8hn-AJ-PPk"/>
+                <constraint firstAttribute="trailing" secondItem="Mv1-eX-dMF" secondAttribute="trailing" id="Av3-yS-h7p"/>
+                <constraint firstAttribute="trailing" secondItem="ptf-wQ-sd9" secondAttribute="trailing" id="JbQ-8h-APd"/>
+                <constraint firstItem="Mv1-eX-dMF" firstAttribute="top" secondItem="ptf-wQ-sd9" secondAttribute="bottom" constant="8" id="e96-wZ-Ies"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Mv1-eX-dMF" secondAttribute="bottom" constant="8" id="gPF-eL-xeS"/>
+                <constraint firstAttribute="bottom" secondItem="ptf-wQ-sd9" secondAttribute="bottom" constant="52" id="pjS-f2-A1W"/>
+                <constraint firstItem="Mv1-eX-dMF" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="rcu-zH-bGA"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="moviePosterImageView" destination="ptf-wQ-sd9" id="UR7-7N-lww"/>
+                <outlet property="movieTitleLabel" destination="Mv1-eX-dMF" id="da5-sF-dWq"/>
+            </connections>
+            <point key="canvasLocation" x="-123.5" y="-324.5"/>
+        </view>
+    </objects>
+</document>

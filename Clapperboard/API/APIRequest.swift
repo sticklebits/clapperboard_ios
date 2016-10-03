@@ -10,4 +10,19 @@ import UIKit
 
 class APIRequest: NSObject {
 
+    func httpString() -> String {
+        let request = dictionary()
+        if request.count == 0 { return "" }
+        var requestString = ""
+        var prefix = ""
+        request.forEach { (key, value) in
+            requestString += "\(prefix)\(key)=\(value)"
+            prefix = "&"
+        }
+        return "?" + requestString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+    }
+    
+    func dictionary() -> [String:String] {
+        return [:]
+    }
 }
