@@ -94,7 +94,8 @@ extension SearchResultsViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: MovieCollectionViewCell.classForCoder()), for: indexPath) as! MovieCollectionViewCell
         let movie = movies[indexPath.row]
-        cell.movieTitleLabel.text = movie.title + movie.year != "" ? "(\(movie.year))" : ""
+        let movieYear = movie.year != "" ? " (\(movie.year))" : ""
+        cell.movieTitleLabel.text = "\(movie.title)\(movieYear)"
         cell.moviePosterImageView.image = imageStore.image(atIndexPath: indexPath)
         return cell
     }
