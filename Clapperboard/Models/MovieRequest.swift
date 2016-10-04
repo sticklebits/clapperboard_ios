@@ -39,7 +39,8 @@ class MovieRequest: APIRequest {
     }
     
     override func dictionary() -> [String:String] {
-        var returnDictionary = ["s":title, "type":format, "plot":plot, "r":dataFormat]
+        let searchTitle = "*" + title.trimmingCharacters(in: CharacterSet(charactersIn: " ")) + "*"
+        var returnDictionary = [searchType.rawValue:searchTitle, "type":format, "plot":plot, "r":dataFormat]
         if (imdbID.characters.count > 0) { returnDictionary[imdbID] = imdbID }
         return returnDictionary
     }

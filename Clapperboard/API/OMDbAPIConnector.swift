@@ -17,13 +17,13 @@ class OMDbAPIConnector: APIConnector {
     }
     
     func searchForMovie(title: String, searchType: MovieRequest.SearchType) {
-        if (title.characters.count < 3) { return }
+        if (title.characters.count == 0) { return }
         request = MovieRequest(title: title, searchType: searchType)
         sendRequest(endpoint: "", method: .get, request: request!)
     }
     
     func searchForMovie(imdbID: String) {
-        if (imdbID.characters.count < 3) { return }
+        if (imdbID.characters.count == 0) { return }
         request = MovieRequest(imdbID: imdbID)
         sendRequest(endpoint: "", method: .get, request: request!)
     }
