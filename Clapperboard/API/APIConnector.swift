@@ -15,6 +15,12 @@ class APIConnector: NSObject {
         case post = "POST"
     }
     
+    var request: APIRequest? {
+        didSet {
+            response = [:]
+        }
+    }
+    
     var base: URL
     
     private(set) var endpoint: String? {
@@ -23,24 +29,24 @@ class APIConnector: NSObject {
         }
     }
     
-    private(set) var request: [String:String]? {
+
+    private(set) var response: [String:Any]?
+    private(set) var isWorking = false {
         didSet {
-            response = [:]
+            didChange(working: isWorking)
         }
     }
-    
-    private(set) var response: [String:Any]?
     
     init(base: URL) {
         self.base = base
         super.init()
     }
     
-    func sendRequest(endpoint: String, method: Method, request: [String:String]) {
+    func sendRequest(endpoint: String, method: Method, request: APIRequest) {
         
         self.request = request
         
-        guard let url = URL(string:"\(endpoint)\(method == .get ? requestAsHTTPString() : "")", relativeTo: base) else {
+        guard let url = URL(string:"\(endpoint)\(method == .get ? request.httpString() : "")", relativeTo: base) else {
             didReceive(error: NSError(domain: "APIConnector", code: 400, userInfo: [NSLocalizedDescriptionKey:"Bad URL request."]))
             return
         }
@@ -51,6 +57,8 @@ class APIConnector: NSObject {
         let session = URLSession.shared
         
         let task = session.dataTask(with: urlRequest as URLRequest) { (data, response, error) in
+            
+            self.isWorking = false
             
             if (error != nil) {
                 self.didReceive(error: error!)
@@ -64,9 +72,16 @@ class APIConnector: NSObject {
             }
         }
         
+        isWorking = true
         task.resume()
     }
+}
 
+
+// MARK: - Empty functions for subclass override
+
+extension APIConnector {
+    
     func didReceive(response: [String:Any]?) {
         
     }
@@ -75,14 +90,7 @@ class APIConnector: NSObject {
         
     }
     
-    func requestAsHTTPString() -> String {
-        if request?.count == 0 { return "" }
-        var requestString = ""
-        var prefix = ""
-        request!.forEach { (key, value) in
-            requestString += "\(prefix)\(key)=\(value)"
-            prefix = "&"
-        }
-        return "?" + requestString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+    func didChange(working: Bool) {
+        
     }
 }

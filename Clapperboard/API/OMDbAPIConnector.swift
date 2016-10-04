@@ -16,9 +16,16 @@ class OMDbAPIConnector: APIConnector {
         self.init(base: URL(string: "https://omdbapi.com")!)
     }
     
-    func searchForMovie(title: String) {
-        if (title.characters.count < 3) { return }
-        sendRequest(endpoint: "", method: .get, request: request(title: title, year: ""))
+    func searchForMovie(title: String, searchType: MovieRequest.SearchType) {
+        if (title.characters.count == 0) { return }
+        request = MovieRequest(title: title, searchType: searchType)
+        sendRequest(endpoint: "", method: .get, request: request!)
+    }
+    
+    func searchForMovie(imdbID: String) {
+        if (imdbID.characters.count == 0) { return }
+        request = MovieRequest(imdbID: imdbID)
+        sendRequest(endpoint: "", method: .get, request: request!)
     }
     
     override func didReceive(response: [String:Any]?) {
@@ -30,8 +37,13 @@ class OMDbAPIConnector: APIConnector {
         
         DispatchQueue.main.async {
             if status == "True" {
-                let movie = Movie(fromJSON: response!)
-                self.delegate?.omdbAPIConnector(self, didFindMovie: movie)
+                if (self.request as! MovieRequest).searchType == .multi {
+                    let movies = self.movies(fromJSON: response!)
+                    self.delegate?.omdbAPIConnector(self, didFindMovieList: movies)
+                } else {
+                    let movie = Movie(fromJSON: response!)
+                    self.delegate?.omdbAPIConnector(self, didFindMovie: movie)
+                }
             } else {
                 self.delegate?.omdbAPIConnector(self, didFindMovie: nil)
             }
@@ -41,15 +53,19 @@ class OMDbAPIConnector: APIConnector {
     override func didReceive(error: Error) {
         delegate?.omdbAPIConnector(self, didReceiveError: error)
     }
-}
-
-
-// MARK: - API Requests
-
-extension OMDbAPIConnector {
     
-    func request(title: String, year: String) -> [String:String] {
-        return ["t":title, "y":year, "plot":"full", "r":"json"]
+    func movies(fromJSON json: [String:Any]) -> [Movie] {
+        var movies: [Movie] = []
+        
+        guard let searchResults: [[String:Any]] = json["Search"] as! [[String : Any]]? else {
+            return movies
+        }
+
+        searchResults.forEach { (movie) in
+            movies.append(Movie(fromJSON: movie))
+        }
+        
+        return movies
     }
 }
 
@@ -57,6 +73,7 @@ extension OMDbAPIConnector {
 // MARK: - OBDbAPIConnectorDelegate protocol
 
 protocol OMDbAPIConnectorDelegate {
-    func omdbAPIConnector(_ omdbAPIConnector:OMDbAPIConnector, didFindMovie:Movie?)
+    func omdbAPIConnector(_ omdbAPIConnector:OMDbAPIConnector, didFindMovie movie:Movie?)
+    func omdbAPIConnector(_ omdbAPIConnector:OMDbAPIConnector, didFindMovieList movieList:[Movie])
     func omdbAPIConnector(_ omdbAPIConnector:OMDbAPIConnector, didReceiveError error:Error)
 }

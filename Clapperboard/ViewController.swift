@@ -27,12 +27,21 @@ class ViewController: UIViewController {
     }
     
     @IBAction func searchButtonWasTouched(_ sender: UIButton) {
-        omdbAPI.searchForMovie(title: titleInputField.text!)
+        omdbAPI.searchForMovie(title: titleInputField.text!, searchType: .multi)
     }
 }
 
 
 extension ViewController: OMDbAPIConnectorDelegate {
+    
+    func omdbAPIConnector(_ omdbAPIConnector: OMDbAPIConnector, didFindMovieList movieList: [Movie]) {
+        let searchResultsViewController = SearchResultsViewController()
+        searchResultsViewController.delegate = self
+        let navigationController = UINavigationController(rootViewController: searchResultsViewController)
+        searchResultsViewController.movies = movieList
+        navigationController.modalPresentationStyle = .formSheet
+        show(navigationController, sender: self)
+    }
     
     func omdbAPIConnector(_ omdbAPIConnector: OMDbAPIConnector, didFindMovie movie: Movie?) {
         
@@ -62,4 +71,17 @@ extension ViewController: OMDbAPIConnectorDelegate {
     func omdbAPIConnector(_ omdbAPIConnector: OMDbAPIConnector, didReceiveError error: Error) {
         print("\(error.localizedDescription)")
     }
+}
+
+extension ViewController: SearchResultsViewControllerDelegate {
+    
+    func searchResultsViewControllerDidCancel(viewController: SearchResultsViewController) {
+        viewController.dismiss(animated: true, completion: nil)
+    }
+    
+    func searchResultsViewController(viewController: SearchResultsViewController, didSelectMovie movie: Movie) {
+        omdbAPI.searchForMovie(imdbID: movie.imdbID)
+        viewController.dismiss(animated: true, completion: nil)
+    }
+    
 }
