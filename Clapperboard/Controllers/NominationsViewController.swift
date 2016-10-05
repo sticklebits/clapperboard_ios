@@ -78,6 +78,7 @@ extension NominationsViewController : UITableViewDataSource {
             fallthrough
         case .recent:
             if let cell = tableView.dequeueReusableCell(withIdentifier: NominationsHeaderIdentifier) as? LargeHeadingTableViewCell {
+                cell.largeHeaderLabel.font = section == .today ? UIFont.systemFont(ofSize: 40.0, weight: 8.0) : UIFont.systemFont(ofSize: 22.0, weight: 4.0)
                 cell.largeHeaderLabel.text = section.rawValue
                 return cell
             }
