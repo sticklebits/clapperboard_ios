@@ -10,9 +10,32 @@ import UIKit
 
 class SearchHeaderCollectionViewCell: UICollectionViewCell {
 
+    @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var searchBarTrailingConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var searchTextField: UITextField!
+    @IBOutlet weak var cancelButton: UIButton!
+    
+    var isSearchBarActive: Bool {
+        return (searchTextField?.isEditing)!
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        searchTextField.returnKeyType = .search
+        updateSearchBar()
     }
 
+    func updateSearchBar() {
+        self.layoutIfNeeded()
+        searchBarTopConstraint.constant = isSearchBarActive ? 24.0 : 99.0
+        searchBarTrailingConstraint.constant = isSearchBarActive ? 80.0 : 8.0
+        UIView .animate(withDuration: 0.25) {
+            self.layoutIfNeeded()
+        }
+    }
+    
+    @IBAction func cancelButtonWasTouched(_ sender: AnyObject) {
+        searchTextField.resignFirstResponder()
+    }
 }
