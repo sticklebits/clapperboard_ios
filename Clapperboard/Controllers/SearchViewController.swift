@@ -10,82 +10,76 @@ import UIKit
 
 class SearchViewController: UIViewController {
 
-    enum TableViewSections: String {
-        case header
-        case searchInput
+    enum CollectionViewSections: String {
+        case searchHeader
+        case searchResults
         
-        static func allSections() -> [TableViewSections] {
-            return [.header, .searchInput]
+        static func allSections() -> [CollectionViewSections] {
+            return [.searchHeader, .searchResults]
         }
     }
     
     let SearchHeaderIdentifier = "SearchHeaderIdentifier"
-    let SearchInputIdentifier = "SearchInputIdentifier"
+    let SearchResultsIdentifier = "SearchResultsIdentifier"
     
-    let tableView = UITableView()
+    var collectionView: UICollectionView!
+    var searchResults: [Movie] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
-        setupTableView()
+        setupCollectionView()
     }
     
-    func setupTableView() {
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.estimatedRowHeight = 200.0
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.register(UITableViewCell.classForCoder(), forCellReuseIdentifier: SearchInputIdentifier)
-        tableView.register(UINib(nibName: "LargeHeadingTableViewCell", bundle: nil), forCellReuseIdentifier: SearchHeaderIdentifier)
-        view.addSubview(tableView)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        view.addConstraint(NSLayoutConstraint(item: tableView, attribute: .top, relatedBy: .equal, toItem: view, attribute: .topMargin, multiplier: 1.0, constant: 0.0))
-        view.addConstraint(NSLayoutConstraint(item: tableView, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1.0, constant: 0.0))
-        view.addConstraint(NSLayoutConstraint(item: tableView, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1.0, constant: 0.0))
-        view.addConstraint(NSLayoutConstraint(item: tableView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottomMargin, multiplier: 1.0, constant: 0.0))
+    func setupCollectionView() {
+        collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
+        collectionView.dataSource = self
+        collectionView.register(SearchHeaderCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: SearchHeaderIdentifier)
+        collectionView.register(MovieCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: SearchResultsIdentifier)
+        view.addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        view.addConstraint(NSLayoutConstraint(item: collectionView, attribute: .top, relatedBy: .equal, toItem: view, attribute: .topMargin, multiplier: 1.0, constant: 0.0))
+        view.addConstraint(NSLayoutConstraint(item: collectionView, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1.0, constant: 0.0))
+        view.addConstraint(NSLayoutConstraint(item: collectionView, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1.0, constant: 0.0))
+        view.addConstraint(NSLayoutConstraint(item: collectionView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottomMargin, multiplier: 1.0, constant: 0.0))
     }
 }
 
 
 // MARK: - UITableViewDataSource
 
-extension SearchViewController : UITableViewDataSource {
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return TableViewSections.allSections().count
+extension SearchViewController : UICollectionViewDataSource {
+
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return CollectionViewSections.allSections().count
     }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        let section = TableViewSections.allSections()[section]
+        let collectionViewSection = CollectionViewSections.allSections()[section]
         
-        switch (section) {
-        case .header: return 1
-        case .searchInput: return 1
+        switch (collectionViewSection) {
+        case .searchHeader: return 1
+        case .searchResults: return searchResults.count
         }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let section = TableViewSections.allSections()[indexPath.section]
-        
-        switch (section) {
-        case .header:
-            if let cell = tableView.dequeueReusableCell(withIdentifier: SearchHeaderIdentifier) as? LargeHeadingTableViewCell {
-                cell.largeHeaderLabel.text = "Search"
+        let collectionViewSection = CollectionViewSections.allSections()[indexPath.section]
+    
+        switch (collectionViewSection) {
+        case .searchHeader:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchHeaderIdentifier, for: indexPath)
                 return cell
-            }
-        case .searchInput:
-            if let cell = tableView.dequeueReusableCell(withIdentifier: SearchInputIdentifier) {
-                cell.textLabel?.text = "..."
+            
+        case .searchResults:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchResultsIdentifier, for: indexPath)
                 return cell
-            }
         }
-        return UITableViewCell()
     }
 }
 
-
-extension SearchViewController : UITableViewDelegate {
+extension SearchViewController {
     
 }
