@@ -13,9 +13,10 @@ class SearchViewController: UIViewController {
     enum CollectionViewSections: String {
         case searchHeader
         case searchResults
+        case recentSearches
         
         static func allSections() -> [CollectionViewSections] {
-            return [.searchHeader, .searchResults]
+            return [.searchHeader, .searchResults, .recentSearches]
         }
     }
     
@@ -23,8 +24,10 @@ class SearchViewController: UIViewController {
     
     let SearchHeaderIdentifier = "SearchHeaderIdentifier"
     let SearchResultsIdentifier = "SearchResultsIdentifier"
+    let RecentSearchIdentifier = "RecentSearchIdentifier"
     
     var collectionView: UICollectionView!
+    var recentSearches: [String] = []
     var searchResults: [Movie] = [] {
         didSet {
             refreshImageStore()
@@ -54,6 +57,7 @@ class SearchViewController: UIViewController {
         collectionView.delegate = self
         collectionView.register(UINib(nibName:"SearchHeaderCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: SearchHeaderIdentifier)
         collectionView.register(UINib(nibName:"MovieCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: SearchResultsIdentifier)
+        collectionView.register(UICollectionViewCell.classForCoder(), forCellWithReuseIdentifier: RecentSearchIdentifier)
         view.addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addConstraint(NSLayoutConstraint(item: collectionView, attribute: .top, relatedBy: .equal, toItem: view, attribute: .topMargin, multiplier: 1.0, constant: 0.0))
@@ -94,6 +98,7 @@ extension SearchViewController : UICollectionViewDataSource {
         switch (collectionViewSection) {
         case .searchHeader: return 1
         case .searchResults: return searchResults.count
+        case .recentSearches: return recentSearches.count
         }
     }
     
@@ -107,6 +112,7 @@ extension SearchViewController : UICollectionViewDataSource {
                 cell.frame = CGRect(origin: cell.frame.origin, size: CGSize(width: collectionView.bounds.width, height: 160.0))
                 searchHeaderCell = cell
                 searchHeaderCell?.searchTextField.delegate = self
+                searchHeaderCell?.delegate = self
                 return cell
             }
             
@@ -116,8 +122,17 @@ extension SearchViewController : UICollectionViewDataSource {
                 let movieYear = movie.year != "" ? " (\(movie.year))" : ""
                 cell.movieTitleLabel.text = "\(movie.title)\(movieYear)"
                 cell.moviePosterImageView.image = imageStore.image(atIndexPath: indexPath)
+                cell.alpha = searchHeaderCell?.state == .closed ? 0.0 : 1.0
                 return cell
             }
+            
+        case .recentSearches:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentSearchIdentifier, for: indexPath)
+            let label = UILabel()
+            label.textAlignment = .left
+            label.text = recentSearches[indexPath.row]
+            cell.contentView.addSubview(label)
+            return cell
         }
         return UICollectionViewCell()
     }
@@ -132,6 +147,7 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
         switch (collectionViewSection) {
         case .searchHeader: return CGSize(width: collectionView.bounds.width, height: 160.0)
         case .searchResults: return CGSize(width: 180.0, height: 320.0)
+        case .recentSearches: return CGSize(width: collectionView.bounds.width, height: 48.0)
         }
     }
 }
@@ -142,20 +158,64 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
 extension SearchViewController: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        searchHeaderCell?.updateSearchBar()
+        updateSearchBarState()
     }
     
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
-        searchHeaderCell?.updateSearchBar()
+        if searchHeaderCell?.state != .closed {
+            updateSearchBarState()
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         omdbAPI.searchForMovie(title: textField.text!, searchType: .multi)
+        recentSearches.insert(textField.text!, at: 0)
         textField.resignFirstResponder()
         return true
     }
+    
+    func updateSearchBarState() {
+        
+        if (searchHeaderCell?.searchTextField?.isEditing)! {
+            searchHeaderCell?.state = .searchInput
+            return
+        }
+        
+        if omdbAPI.isWorking || searchResults.count > 0 {
+            searchHeaderCell?.state = .searchResults
+            return
+        }
+        
+        if searchHeaderCell?.state == .closed { return }
+    }
 }
 
+
+// MARK: - SearchHeaderDelegate
+
+extension SearchViewController: SearchHeaderDelegate {
+    
+    func searchHeader(_ searchHeader: SearchHeaderCollectionViewCell, didTouchButton button: UIButton) {
+        searchHeaderCell?.state = .closed
+    }
+    
+    func searchHeaderWillClose(_ searchHeader: SearchHeaderCollectionViewCell) {
+        UIView.animate(withDuration: 0.25) { 
+            self.imageStore.indexPaths().forEach { (indexPath) in
+                if let cell = self.collectionView.cellForItem(at: indexPath) {
+                    cell.alpha = 0.0
+                }
+            }
+        }
+    }
+    
+    func searchHeaderDidClose(_ searchHeader: SearchHeaderCollectionViewCell) {
+        self.searchResults = []
+    }
+}
+
+
+// MARK: - OMDbAPIConnectorDelegate
 
 extension SearchViewController: OMDbAPIConnectorDelegate {
     

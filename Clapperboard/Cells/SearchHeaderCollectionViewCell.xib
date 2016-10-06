@@ -15,14 +15,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="516" height="155"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yth-9h-0Bv" userLabel="ContentView">
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yth-9h-0Bv" userLabel="ContentView">
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Search" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FJ2-6y-3yS">
                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="40"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Aoa-KO-nUl">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" background="tab_search" translatesAutoresizingMaskIntoConstraints="NO" id="Aoa-KO-nUl">
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="XHc-7f-cdi"/>
@@ -37,17 +37,30 @@
                                     <action selector="cancelButtonWasTouched:" destination="gTV-IL-0wX" eventType="touchUpInside" id="jNT-pQ-yqR"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="cqx-ek-nfG">
+                                <segments>
+                                    <segment title="Un-nominated"/>
+                                    <segment title="All Movies"/>
+                                </segments>
+                                <connections>
+                                    <action selector="filterSegmentDidChange:" destination="gTV-IL-0wX" eventType="valueChanged" id="CbA-26-5mW"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="WeI-6q-m8p" firstAttribute="bottom" secondItem="Aoa-KO-nUl" secondAttribute="bottom" id="05k-YW-Y3k"/>
                             <constraint firstItem="Aoa-KO-nUl" firstAttribute="leading" secondItem="Yth-9h-0Bv" secondAttribute="leading" constant="8" id="6os-5M-msl"/>
+                            <constraint firstAttribute="trailing" secondItem="cqx-ek-nfG" secondAttribute="trailing" constant="8" id="FZX-XM-MuL"/>
                             <constraint firstItem="WeI-6q-m8p" firstAttribute="top" secondItem="Aoa-KO-nUl" secondAttribute="top" id="Ky0-Zc-0gG"/>
-                            <constraint firstItem="Aoa-KO-nUl" firstAttribute="top" secondItem="Yth-9h-0Bv" secondAttribute="top" constant="99" id="LoM-Mi-QKP"/>
+                            <constraint firstItem="Aoa-KO-nUl" firstAttribute="top" secondItem="Yth-9h-0Bv" secondAttribute="top" constant="24" id="LoM-Mi-QKP"/>
                             <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Aoa-KO-nUl" secondAttribute="bottom" constant="8" id="MJL-gD-FpF"/>
+                            <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="WeI-6q-m8p" secondAttribute="trailing" constant="8" id="RQp-x1-uG5"/>
                             <constraint firstItem="WeI-6q-m8p" firstAttribute="leading" secondItem="Aoa-KO-nUl" secondAttribute="trailing" constant="12" id="Ysq-BW-5ps"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="FJ2-6y-3yS" secondAttribute="trailing" constant="24" id="bzm-ul-05D"/>
+                            <constraint firstItem="cqx-ek-nfG" firstAttribute="top" secondItem="Aoa-KO-nUl" secondAttribute="bottom" constant="25" id="iPR-eJ-ejF"/>
                             <constraint firstAttribute="trailing" secondItem="Aoa-KO-nUl" secondAttribute="trailing" constant="80" id="kWu-Kk-N5W"/>
+                            <constraint firstItem="cqx-ek-nfG" firstAttribute="leading" secondItem="Yth-9h-0Bv" secondAttribute="leading" constant="8" id="st9-su-Aet"/>
                             <constraint firstItem="Aoa-KO-nUl" firstAttribute="top" secondItem="FJ2-6y-3yS" secondAttribute="bottom" constant="16" id="tOY-Ci-Fud"/>
                             <constraint firstItem="FJ2-6y-3yS" firstAttribute="leading" secondItem="Yth-9h-0Bv" secondAttribute="leading" constant="8" id="wPH-Wa-O57"/>
                         </constraints>
@@ -63,6 +76,7 @@
             <size key="customSize" width="516" height="155"/>
             <connections>
                 <outlet property="cancelButton" destination="WeI-6q-m8p" id="B5e-U7-bi3"/>
+                <outlet property="filterSegment" destination="cqx-ek-nfG" id="BAF-wi-7u2"/>
                 <outlet property="searchBarTopConstraint" destination="LoM-Mi-QKP" id="uKb-Qm-Y4W"/>
                 <outlet property="searchBarTrailingConstraint" destination="kWu-Kk-N5W" id="46G-Xo-ihL"/>
                 <outlet property="searchTextField" destination="Aoa-KO-nUl" id="P4Y-lf-D9I"/>
@@ -70,4 +84,7 @@
             <point key="canvasLocation" x="-241" y="-7.5"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="tab_search" width="31" height="27"/>
+    </resources>
 </document>

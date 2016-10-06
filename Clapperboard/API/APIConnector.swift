@@ -44,6 +44,10 @@ class APIConnector: NSObject {
     
     func sendRequest(endpoint: String, method: Method, request: APIRequest) {
         
+        if isWorking { return }
+        
+        isWorking = true
+        
         self.request = request
         
         guard let url = URL(string:"\(endpoint)\(method == .get ? request.httpString() : "")", relativeTo: base) else {
@@ -72,7 +76,6 @@ class APIConnector: NSObject {
             }
         }
         
-        isWorking = true
         task.resume()
     }
 }
