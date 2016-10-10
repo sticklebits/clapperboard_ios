@@ -29,6 +29,7 @@
 		AA89A2131DA171950064D142 /* OMDbAPIConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA89A2121DA171950064D142 /* OMDbAPIConnector.swift */; };
 		AA89A2151DA17C8D0064D142 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA89A2141DA17C8D0064D142 /* Movie.swift */; };
 		AAC5690B1DA1D632008D8D4C /* MovieRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC5690A1DA1D632008D8D4C /* MovieRequest.swift */; };
+		F24F67371DAC1D7B00E2FFFC /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24F67361DAC1D7B00E2FFFC /* UIView+Extensions.swift */; };
 		F25052061DABCC0700930870 /* LargeHeadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25052051DABCC0700930870 /* LargeHeadingView.swift */; };
 		F25052081DABCC3500930870 /* LargeHeadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F25052071DABCC3500930870 /* LargeHeadingView.xib */; };
 		F2B893D31DA5315900CD6DCE /* SearchHeaderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B893D11DA5315900CD6DCE /* SearchHeaderCollectionViewCell.swift */; };
@@ -81,6 +82,7 @@
 		AA89A2121DA171950064D142 /* OMDbAPIConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OMDbAPIConnector.swift; path = API/OMDbAPIConnector.swift; sourceTree = "<group>"; };
 		AA89A2141DA17C8D0064D142 /* Movie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Movie.swift; path = Models/Movie.swift; sourceTree = "<group>"; };
 		AAC5690A1DA1D632008D8D4C /* MovieRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MovieRequest.swift; path = Models/MovieRequest.swift; sourceTree = "<group>"; };
+		F24F67361DAC1D7B00E2FFFC /* UIView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		F25052051DABCC0700930870 /* LargeHeadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LargeHeadingView.swift; path = Cells/LargeHeadingView.swift; sourceTree = "<group>"; };
 		F25052071DABCC3500930870 /* LargeHeadingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LargeHeadingView.xib; path = Cells/LargeHeadingView.xib; sourceTree = "<group>"; };
 		F2B893D11DA5315900CD6DCE /* SearchHeaderCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchHeaderCollectionViewCell.swift; path = Cells/SearchHeaderCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 		AA89A1DF1DA164400064D142 /* Clapperboard */ = {
 			isa = PBXGroup;
 			children = (
+				F24F67351DAC1D4500E2FFFC /* Extensions */,
 				AA27ED7C1DA46A8E000395B7 /* Cells */,
 				AA27ED791DA450CE000395B7 /* Root View Controllers */,
 				AA89A2161DA17C910064D142 /* Models */,
@@ -225,6 +228,14 @@
 				AAC5690A1DA1D632008D8D4C /* MovieRequest.swift */,
 			);
 			name = "Request Models";
+			sourceTree = "<group>";
+		};
+		F24F67351DAC1D4500E2FFFC /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F24F67361DAC1D7B00E2FFFC /* UIView+Extensions.swift */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 		F25052041DABCBE300930870 /* Common Views */ = {
@@ -407,6 +418,7 @@
 				AA27ED6C1DA23AFA000395B7 /* SearchResultsViewController.swift in Sources */,
 				AA27ED721DA2FFCF000395B7 /* MovieCollectionViewCell.swift in Sources */,
 				AA27ED741DA30F55000395B7 /* IndexedImageStore.swift in Sources */,
+				F24F67371DAC1D7B00E2FFFC /* UIView+Extensions.swift in Sources */,
 				AA27ED6E1DA2408A000395B7 /* APIRequest.swift in Sources */,
 				AA27ED7F1DA46AC8000395B7 /* LargeHeadingTableViewCell.swift in Sources */,
 				AA89A2151DA17C8D0064D142 /* Movie.swift in Sources */,

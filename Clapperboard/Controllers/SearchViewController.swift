@@ -13,29 +13,57 @@ class SearchViewController: UIViewController {
     enum CollectionViewSections: String {
         case searchHeader
         case searchResults
-        case recentSearchesHeader
-        case recentSearches
-        
-        static func allSections() -> [CollectionViewSections] {
-            return [.searchHeader, .searchResults, .recentSearchesHeader, .recentSearches]
+        case recentHeader
+        case recent
+        case trendingHeader
+        case trending
+    }
+    
+    var sections: [CollectionViewSections] {
+        var sections: [CollectionViewSections] = []
+
+        sections.append(.searchHeader)
+        if searchResults.count > 0 {
+            sections.append(.searchResults)
+        } else if !omdbAPI.isWorking {
+            if recentSearches.count > 0 {
+                sections.append(.recentHeader)
+                sections.append(.recent)
+            }
+            if trendingSearches.count > 0 {
+                sections.append(.trendingHeader)
+                sections.append(.trending)
+            }
         }
+
+        return sections
     }
     
     let omdbAPI = OMDbAPIConnector()
     
     let SearchHeaderIdentifier = "SearchHeaderIdentifier"
     let SearchResultsIdentifier = "SearchResultsIdentifier"
-    let RecentSearchesHeaderIdentifier = "RecentSearchesHeaderIdentifier"
-    let RecentSearchIdentifier = "RecentSearchIdentifier"
+    let LargeHeaderIdentifier = "LargeHeaderIdentifier"
+    let LabelRowIdentifier = "LabelRowIdentifier"
     
     var collectionView: UICollectionView!
-    var recentSearches: [String] = []
+    var recentSearches: [String] = [] {
+        didSet {
+            recentSearches = recentSearches.filter { (search) in
+                return recentSearches.index(of: search)! < 3
+            }
+            refreshCollectionView()
+        }
+    }
+    var trendingSearches: [String] = ["star wars", "bond", "jurassic park"]
     var searchResults: [Movie] = [] {
         didSet {
             refreshImageStore()
-            collectionView.reloadData()
+            refreshCollectionView()
         }
     }
+    
+    var headerTopConstraint: NSLayoutConstraint!
     
     let imageStore = IndexedImageStore(blankImage: UIImage(named: "no_movie_image"), diskPathToCache: "movie_poster_image_store")
     
@@ -51,7 +79,7 @@ class SearchViewController: UIViewController {
     func setupCollectionView() {
         
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
+        layout.sectionInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
         
         collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         collectionView.backgroundColor = UIColor.white
@@ -59,18 +87,15 @@ class SearchViewController: UIViewController {
         collectionView.delegate = self
         collectionView.register(UINib(nibName:"SearchHeaderCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: SearchHeaderIdentifier)
         collectionView.register(UINib(nibName:"MovieCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: SearchResultsIdentifier)
-        collectionView.register(UICollectionViewCell.classForCoder(), forCellWithReuseIdentifier: RecentSearchesHeaderIdentifier)
-        collectionView.register(UICollectionViewCell.classForCoder(), forCellWithReuseIdentifier: RecentSearchIdentifier)
+        collectionView.register(UICollectionViewCell.classForCoder(), forCellWithReuseIdentifier: LargeHeaderIdentifier)
+        collectionView.register(UICollectionViewCell.classForCoder(), forCellWithReuseIdentifier: LabelRowIdentifier)
         view.addSubview(collectionView)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        view.addConstraint(NSLayoutConstraint(item: collectionView, attribute: .top, relatedBy: .equal, toItem: view, attribute: .topMargin, multiplier: 1.0, constant: 0.0))
-        view.addConstraint(NSLayoutConstraint(item: collectionView, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1.0, constant: 0.0))
-        view.addConstraint(NSLayoutConstraint(item: collectionView, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1.0, constant: 0.0))
-        view.addConstraint(NSLayoutConstraint(item: collectionView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottomMargin, multiplier: 1.0, constant: 0.0))
+        collectionView.pin(insideView: view, insets: UIEdgeInsets.zero)
     }
     
     func refreshImageStore() {
-        let section = CollectionViewSections.allSections().index(of: .searchResults)!
+        if !sections.contains(.searchResults) { return }
+        let section = sections.index(of: .searchResults)!
         var item = 0
         searchResults.forEach { (movie) in
             let indexPath = IndexPath(item: item, section: section)
@@ -83,6 +108,10 @@ class SearchViewController: UIViewController {
             item += 1
         }
     }
+    
+    func refreshCollectionView() {
+        collectionView.reloadData()
+    }
 }
 
 
@@ -91,24 +120,26 @@ class SearchViewController: UIViewController {
 extension SearchViewController : UICollectionViewDataSource {
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return CollectionViewSections.allSections().count
+        return sections.count
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        let collectionViewSection = CollectionViewSections.allSections()[section]
+        let collectionViewSection = sections[section]
         
         switch (collectionViewSection) {
         case .searchHeader: return 1
         case .searchResults: return searchResults.count
-        case .recentSearchesHeader: return 1
-        case .recentSearches: return recentSearches.count
+        case .recentHeader: return 1
+        case .recent: return recentSearches.count
+        case .trendingHeader: return 1
+        case .trending: return trendingSearches.count
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let collectionViewSection = CollectionViewSections.allSections()[indexPath.section]
+        let collectionViewSection = sections[indexPath.section]
     
         switch (collectionViewSection) {
         case .searchHeader:
@@ -130,53 +161,143 @@ extension SearchViewController : UICollectionViewDataSource {
                 return cell
             }
             
-        case .recentSearchesHeader:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentSearchesHeaderIdentifier, for: indexPath)
-            cell.subviews.forEach({ (view) in
-                view.removeFromSuperview()
-            })
+        case .recentHeader:
+            return headerCell(title: "Recent", buttonText: "Clear", buttonAction: #selector(clearRecentSearches), atIndexPath: indexPath)
             
-            let headerView = UINib(nibName: "LargeHeadingView", bundle: nil).instantiate(withOwner: self, options: nil).first as! LargeHeadingView
-            cell.addSubview(headerView)
-            headerView.translatesAutoresizingMaskIntoConstraints = false
-            cell.addConstraint(NSLayoutConstraint(item: headerView, attribute: .leading, relatedBy: .equal, toItem: cell, attribute: .leading, multiplier: 1.0, constant: 0.0))
-            cell.addConstraint(NSLayoutConstraint(item: headerView, attribute: .trailing, relatedBy: .equal, toItem: cell, attribute: .trailing, multiplier: 1.0, constant: 0.0))
-            cell.addConstraint(NSLayoutConstraint(item: headerView, attribute: .top, relatedBy: .equal, toItem: cell, attribute: .top, multiplier: 1.0, constant: 0.0))
-            cell.addConstraint(NSLayoutConstraint(item: headerView, attribute: .bottom, relatedBy: .equal, toItem: cell, attribute: .bottom, multiplier: 1.0, constant: 0.0))
+        case .recent:
+            return labelRowCell(labelText: recentSearches[indexPath.row], underlined: indexPath.row + 1 < recentSearches.count, atIndexPath: indexPath)
             
-            headerView.headingLabel.text = "Recent Searches"
-            headerView.actionButton.setTitle("Clear", for: .normal)
-
-            return cell
+        case .trendingHeader:
+            return headerCell(title: "Trending", buttonText: "", buttonAction: nil, atIndexPath: indexPath)
             
-        case .recentSearches:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentSearchIdentifier, for: indexPath)
-            let label = UILabel()
-            label.textAlignment = .left
-            label.text = recentSearches[indexPath.row]
-            cell.contentView.addSubview(label)
-            label.translatesAutoresizingMaskIntoConstraints = false
-            cell.addConstraint(NSLayoutConstraint(item: label, attribute: .leading, relatedBy: .equal, toItem: cell, attribute: .leading, multiplier: 1.0, constant: 0.0))
-            cell.addConstraint(NSLayoutConstraint(item: label, attribute: .trailing, relatedBy: .equal, toItem: cell, attribute: .trailing, multiplier: 1.0, constant: 0.0))
-            cell.addConstraint(NSLayoutConstraint(item: label, attribute: .top, relatedBy: .equal, toItem: cell, attribute: .top, multiplier: 1.0, constant: 0.0))
-            cell.addConstraint(NSLayoutConstraint(item: label, attribute: .bottom, relatedBy: .equal, toItem: cell, attribute: .bottom, multiplier: 1.0, constant: 0.0))
-            return cell
+        case .trending:
+            return labelRowCell(labelText: trendingSearches[indexPath.row], underlined: indexPath.row + 1 < trendingSearches.count, atIndexPath: indexPath)
         }
         return UICollectionViewCell()
     }
+    
+    func headerCell(title: String, buttonText: String, buttonAction: Selector?, atIndexPath indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LargeHeaderIdentifier, for: indexPath)
+        
+        cell.subviews.forEach { $0.removeFromSuperview() }
+        
+        let headerView = UINib(nibName: "LargeHeadingView", bundle: nil).instantiate(withOwner: self, options: nil).first as! LargeHeadingView
+        
+        cell.addSubview(headerView)
+        headerView.pin(insideView: cell, insets: UIEdgeInsets.zero)
+        headerView.headingLabel.text = title
+        UIView.withoutAnimation {
+            headerView.actionButton.setTitle(buttonText, for: .normal)
+        }
+        if buttonAction != nil {
+            headerView.actionButton.addTarget(self, action: buttonAction!, for: .touchUpInside)
+        }
+        return cell
+    }
+    
+    func labelRowCell(labelText: String, underlined: Bool, atIndexPath indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LabelRowIdentifier, for: indexPath)
+        
+        cell.contentView.subviews.forEach { $0.removeFromSuperview() }
+        
+        let label = UILabel()
+        
+        if underlined {
+            cell.contentView.underline(color: UIColor.init(white: 0.9, alpha: 1.0), height: 1.0, leftInset: 8.0)
+        }
+        
+        label.backgroundColor = UIColor.white
+        label.textAlignment = .left
+        label.text = labelText
+        label.font = UIFont.systemFont(ofSize: 18.0)
+        label.textColor = view.tintColor
+        cell.contentView.addSubview(label)
+        label.pin(insideView: cell, insets: UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 0.0))
+        return cell
+    }
 }
+
+
+// MARK: - Actions
+
+extension SearchViewController {
+    
+    func clearRecentSearches() {
+        recentSearches = []
+    }
+}
+
+
+// MARK: - UICollectionViewDelegate
+
+extension SearchViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let collectionViewSection = sections[indexPath.section]
+    
+        let search: String
+        
+        switch (collectionViewSection) {
+        case .searchHeader:
+            fallthrough
+        case .searchResults:
+            fallthrough
+        case .recentHeader:
+            fallthrough
+        case .trendingHeader:
+            return
+            
+        case .recent:
+            search = recentSearches[indexPath.row]
+            
+        case .trending:
+            search = trendingSearches[indexPath.row]
+        }
+        
+        searchHeaderCell?.searchTextField.text = search
+        omdbAPI.searchForMovie(title: search, searchType: .multi)
+        refreshCollectionView()
+        DispatchQueue.main.async {
+            self.updateSearchBarState()
+        }
+    }
+}
+
 
 extension SearchViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let collectionViewSection = CollectionViewSections.allSections()[indexPath.section]
+        let collectionViewSection = sections[indexPath.section]
         
         switch (collectionViewSection) {
-        case .searchHeader: return CGSize(width: collectionView.bounds.width - 12.0, height: 160.0)
+        case .searchHeader: return CGSize(width: collectionView.bounds.width, height: 160.0)
         case .searchResults: return CGSize(width: 180.0, height: 320.0)
-        case .recentSearchesHeader: return CGSize(width: collectionView.bounds.width - 12.0, height: 48.0)
-        case .recentSearches: return CGSize(width: collectionView.bounds.width - 12.0, height: 48.0)
+            
+        case .trendingHeader:
+            fallthrough
+        case .recentHeader: return CGSize(width: collectionView.bounds.width, height: 48.0)
+            
+        case .trending:
+            fallthrough
+        case .recent: return CGSize(width: collectionView.bounds.width, height: 36.0)
+            
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        
+        let collectionViewSection = sections[section]
+        
+        switch (collectionViewSection) {
+        case .searchHeader: fallthrough
+        case .recentHeader: fallthrough
+        case .recent: fallthrough
+        case .trendingHeader: fallthrough
+        case .trending: return UIEdgeInsets.zero
+        case .searchResults: return UIEdgeInsets(top: 0.0, left: 8.0, bottom: 0.0, right: 8.0)
         }
     }
 }
@@ -229,7 +350,7 @@ extension SearchViewController: SearchHeaderDelegate {
     }
     
     func searchHeaderWillClose(_ searchHeader: SearchHeaderCollectionViewCell) {
-        UIView.animate(withDuration: 0.25) { 
+        UIView.animate(withDuration: 0.25) {
             self.imageStore.indexPaths().forEach { (indexPath) in
                 if let cell = self.collectionView.cellForItem(at: indexPath) {
                     cell.alpha = 0.0
@@ -250,7 +371,6 @@ extension SearchViewController: OMDbAPIConnectorDelegate {
     
     func omdbAPIConnector(_ omdbAPIConnector: OMDbAPIConnector, didFindMovieList movieList: [Movie]) {
         searchResults = movieList
-        collectionView.reloadData()
     }
     
     func omdbAPIConnector(_ omdbAPIConnector: OMDbAPIConnector, didFindMovie movie: Movie?) {
