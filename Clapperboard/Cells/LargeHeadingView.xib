@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="LargeHeadingView" customModule="Clapperboard" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="529" height="109"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ckc-Um-LAU">
+                    <fontDescription key="fontDescription" type="system" weight="black" pointSize="18"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w6O-1n-ymK">
+                    <state key="normal" title="Edit"/>
+                    <connections>
+                        <action selector="actionButtonWasTouched:" destination="iN0-l3-epB" eventType="touchUpInside" id="Pj8-PK-UhW"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="w6O-1n-ymK" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ckc-Um-LAU" secondAttribute="trailing" constant="24" id="24q-FD-6U5"/>
+                <constraint firstAttribute="trailing" secondItem="w6O-1n-ymK" secondAttribute="trailing" constant="8" id="Kp3-EH-ul1"/>
+                <constraint firstAttribute="bottom" secondItem="Ckc-Um-LAU" secondAttribute="bottom" constant="8" id="RPE-eH-FLl"/>
+                <constraint firstItem="w6O-1n-ymK" firstAttribute="baseline" secondItem="Ckc-Um-LAU" secondAttribute="baseline" id="YpZ-Ut-Fgh"/>
+                <constraint firstItem="Ckc-Um-LAU" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="wDb-Tb-1Ep"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="actionButton" destination="w6O-1n-ymK" id="guM-ZL-aSm"/>
+                <outlet property="headingLabel" destination="Ckc-Um-LAU" id="vZ6-zh-mTw"/>
+            </connections>
+            <point key="canvasLocation" x="111.5" y="-224.5"/>
+        </view>
+    </objects>
+</document>

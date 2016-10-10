@@ -29,6 +29,8 @@
 		AA89A2131DA171950064D142 /* OMDbAPIConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA89A2121DA171950064D142 /* OMDbAPIConnector.swift */; };
 		AA89A2151DA17C8D0064D142 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA89A2141DA17C8D0064D142 /* Movie.swift */; };
 		AAC5690B1DA1D632008D8D4C /* MovieRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC5690A1DA1D632008D8D4C /* MovieRequest.swift */; };
+		F25052061DABCC0700930870 /* LargeHeadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25052051DABCC0700930870 /* LargeHeadingView.swift */; };
+		F25052081DABCC3500930870 /* LargeHeadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F25052071DABCC3500930870 /* LargeHeadingView.xib */; };
 		F2B893D31DA5315900CD6DCE /* SearchHeaderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B893D11DA5315900CD6DCE /* SearchHeaderCollectionViewCell.swift */; };
 		F2B893D41DA5315900CD6DCE /* SearchHeaderCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2B893D21DA5315900CD6DCE /* SearchHeaderCollectionViewCell.xib */; };
 /* End PBXBuildFile section */
@@ -79,6 +81,8 @@
 		AA89A2121DA171950064D142 /* OMDbAPIConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OMDbAPIConnector.swift; path = API/OMDbAPIConnector.swift; sourceTree = "<group>"; };
 		AA89A2141DA17C8D0064D142 /* Movie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Movie.swift; path = Models/Movie.swift; sourceTree = "<group>"; };
 		AAC5690A1DA1D632008D8D4C /* MovieRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MovieRequest.swift; path = Models/MovieRequest.swift; sourceTree = "<group>"; };
+		F25052051DABCC0700930870 /* LargeHeadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LargeHeadingView.swift; path = Cells/LargeHeadingView.swift; sourceTree = "<group>"; };
+		F25052071DABCC3500930870 /* LargeHeadingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LargeHeadingView.xib; path = Cells/LargeHeadingView.xib; sourceTree = "<group>"; };
 		F2B893D11DA5315900CD6DCE /* SearchHeaderCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchHeaderCollectionViewCell.swift; path = Cells/SearchHeaderCollectionViewCell.swift; sourceTree = "<group>"; };
 		F2B893D21DA5315900CD6DCE /* SearchHeaderCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SearchHeaderCollectionViewCell.xib; path = Cells/SearchHeaderCollectionViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -123,6 +127,7 @@
 		AA27ED7C1DA46A8E000395B7 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				F25052041DABCBE300930870 /* Common Views */,
 				F2B893D61DA5317100CD6DCE /* CollectionView */,
 				F2B893D51DA5316400CD6DCE /* TableView */,
 			);
@@ -220,6 +225,15 @@
 				AAC5690A1DA1D632008D8D4C /* MovieRequest.swift */,
 			);
 			name = "Request Models";
+			sourceTree = "<group>";
+		};
+		F25052041DABCBE300930870 /* Common Views */ = {
+			isa = PBXGroup;
+			children = (
+				F25052051DABCC0700930870 /* LargeHeadingView.swift */,
+				F25052071DABCC3500930870 /* LargeHeadingView.xib */,
+			);
+			name = "Common Views";
 			sourceTree = "<group>";
 		};
 		F2B893D51DA5316400CD6DCE /* TableView */ = {
@@ -350,6 +364,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F25052081DABCC3500930870 /* LargeHeadingView.xib in Resources */,
 				AA89A1EB1DA164400064D142 /* LaunchScreen.storyboard in Resources */,
 				F2B893D41DA5315900CD6DCE /* SearchHeaderCollectionViewCell.xib in Resources */,
 				AA89A1E81DA164400064D142 /* Assets.xcassets in Resources */,
@@ -382,6 +397,7 @@
 			files = (
 				AA27ED821DA46E91000395B7 /* SearchViewController.swift in Sources */,
 				AA89A2131DA171950064D142 /* OMDbAPIConnector.swift in Sources */,
+				F25052061DABCC0700930870 /* LargeHeadingView.swift in Sources */,
 				AA27ED7B1DA45897000395B7 /* NominationsViewController.swift in Sources */,
 				AA89A2111DA171290064D142 /* APIConnector.swift in Sources */,
 				AAC5690B1DA1D632008D8D4C /* MovieRequest.swift in Sources */,
