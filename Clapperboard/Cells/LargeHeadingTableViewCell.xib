@@ -36,6 +36,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="actionButton" destination="DHs-Jk-6zt" id="cLI-7g-i5f"/>
+                <outlet property="labelTopConstraint" destination="EOP-ab-ISa" id="lrV-wU-heX"/>
                 <outlet property="largeHeaderLabel" destination="kAA-kd-OJ2" id="JFx-n2-etF"/>
             </connections>
             <point key="canvasLocation" x="140" y="84.5"/>

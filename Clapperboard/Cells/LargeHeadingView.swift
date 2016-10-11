@@ -12,6 +12,7 @@ class LargeHeadingView: UIView {
 
     @IBOutlet weak var headingLabel: UILabel!
     @IBOutlet weak var actionButton: UIButton!
+    @IBOutlet weak var topSpacingConstraint: NSLayoutConstraint!
     
     var onTouched: ((_ button: UIButton) -> (Void))?
     

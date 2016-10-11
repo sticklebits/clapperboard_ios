@@ -27,7 +27,7 @@ class SearchHeaderCollectionViewCell: UICollectionViewCell {
     var state: State = .closed {
         didSet {
             if state == .closed {
-                self.delegate?.searchHeaderWillClose?(self)
+//                self.delegate?.searchHeaderWillClose?(self)
             }
             updateSearchBar()
         }
@@ -61,27 +61,17 @@ class SearchHeaderCollectionViewCell: UICollectionViewCell {
             self.layoutIfNeeded()
             }) { (_) in
                 if self.state == .closed {
-                    self.delegate?.searchHeaderDidClose?(self)
+//                    self.delegate?.searchHeaderDidClose?(self)
                 }
         }
     }
     
     @IBAction func cancelButtonWasTouched(_ sender: AnyObject) {
-        delegate?.searchHeader(self, didTouchButton: sender as! UIButton)
+//        delegate?.searchHeader(self, didTouchButton: sender as! UIButton)
     }
     
     @IBAction func filterSegmentDidChange(_ sender: UISegmentedControl) {
         updatePlaceholder()
     }
     
-}
-
-
-// MARK: - SearchHeaderDelegate Protocol
-
-@objc protocol SearchHeaderDelegate {
-    
-    func searchHeader(_ searchHeader: SearchHeaderCollectionViewCell, didTouchButton button: UIButton)
-    @objc optional func searchHeaderWillClose(_ searchHeader: SearchHeaderCollectionViewCell)
-    @objc optional func searchHeaderDidClose(_ searchHeader: SearchHeaderCollectionViewCell)
 }

@@ -12,6 +12,7 @@ class LargeHeadingTableViewCell: UITableViewCell {
 
     @IBOutlet weak var largeHeaderLabel: UILabel!
     @IBOutlet weak var actionButton: UIButton!
+    @IBOutlet weak var labelTopConstraint: NSLayoutConstraint!
     
     override func awakeFromNib() {
         super.awakeFromNib()

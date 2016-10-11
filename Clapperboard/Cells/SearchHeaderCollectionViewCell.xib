@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -81,7 +81,7 @@
                 <outlet property="searchBarTrailingConstraint" destination="kWu-Kk-N5W" id="46G-Xo-ihL"/>
                 <outlet property="searchTextField" destination="Aoa-KO-nUl" id="P4Y-lf-D9I"/>
             </connections>
-            <point key="canvasLocation" x="-223" y="-7.5"/>
+            <point key="canvasLocation" x="-263" y="-125"/>
         </collectionViewCell>
     </objects>
     <resources>
