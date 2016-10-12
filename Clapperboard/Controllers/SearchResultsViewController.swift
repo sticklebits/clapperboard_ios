@@ -46,7 +46,6 @@ class SearchResultsViewController: UIViewController {
     }
 
     func setupCollectionView() {
-        collectionView.backgroundColor = UIColor.white
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(UINib(nibName: "MovieCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: String(describing: MovieCollectionViewCell.classForCoder()))

@@ -35,9 +35,15 @@ class SearchHeaderTableViewCell: UITableViewCell {
     }
     
     var delegate: SearchHeaderDelegate?
+    var stateDelegate: SearchHeaderStateDelegate?
     
     var state: State = .closed {
         didSet {
+            if state == .closed {
+                self.stateDelegate?.searchHeaderWillClose(self)
+            } else {
+                self.stateDelegate?.searchHeaderWillOpen(self)
+            }
             updateSearchBar()
         }
     }
@@ -77,6 +83,12 @@ class SearchHeaderTableViewCell: UITableViewCell {
         UIView .animate(withDuration: 0.25, animations: {
             self.searchLabel.alpha = self.state == .closed ? 1.0 : 0.0
             self.layoutIfNeeded()
+            }, completion: { (finished) in
+                if self.state == .closed {
+                    self.stateDelegate?.searchHeaderDidClose(self)
+                } else {
+                    self.stateDelegate?.searchHeaderDidOpen(self)
+                }
         })
     }
     
@@ -128,4 +140,14 @@ protocol SearchHeaderDelegate {
     func searchHeader(_ searchHeader: SearchHeaderTableViewCell, didRequestSearch: String?)
     func searchHeader(_ searchHeader: SearchHeaderTableViewCell, didTouchButton button: UIButton)
     func searchHeaderShouldUpdateState(_ searchHeader: SearchHeaderTableViewCell) -> SearchHeaderTableViewCell.State
+}
+
+protocol SearchHeaderStateDelegate {
+    // Opening states
+    func searchHeaderWillOpen(_ searchHeader: SearchHeaderTableViewCell)
+    func searchHeaderDidOpen(_ searchHeader: SearchHeaderTableViewCell)
+    
+    // Closing states
+    func searchHeaderWillClose(_ searchHeader: SearchHeaderTableViewCell)
+    func searchHeaderDidClose(_ searchHeader: SearchHeaderTableViewCell)
 }

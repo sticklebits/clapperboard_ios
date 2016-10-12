@@ -34,6 +34,8 @@ class SearchViewController: UIViewController {
     fileprivate let tableView = UITableView(frame: CGRect.zero, style: .grouped)
     
     fileprivate var searchHeaderCell: SearchHeaderTableViewCell?
+    fileprivate var searchResultsContainer = UIView()
+    fileprivate var searchResultsController = SearchResultsViewController()
     
     // MARK: - Lifecycle
     
@@ -111,6 +113,8 @@ extension SearchViewController: UITableViewDataSource {
     func searchHeaderCell(tableView: UITableView) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: SearchHeaderCellIdentifier) as? SearchHeaderTableViewCell {
             searchHeaderCell = cell
+            searchHeaderCell?.delegate = self
+            searchHeaderCell?.stateDelegate = self
             return cell
         }
         return UITableViewCell()
@@ -159,6 +163,59 @@ extension SearchViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return UIView(frame: CGRect.zero)
+    }
+}
+
+// MARK: - SearchHeaderDelegate
+
+extension SearchViewController: SearchHeaderDelegate {
+    
+    func searchHeader(_ searchHeader: SearchHeaderTableViewCell, didRequestSearch: String?) {
+
+    }
+    
+    func searchHeader(_ searchHeader: SearchHeaderTableViewCell, didTouchButton button: UIButton) {
+        
+    }
+    
+    func searchHeaderShouldUpdateState(_ searchHeader: SearchHeaderTableViewCell) -> SearchHeaderTableViewCell.State {
+        return .closed
+    }
+}
+
+// MARK: - SearchHeaderStateDelegate
+
+extension SearchViewController: SearchHeaderStateDelegate {
+    
+    func searchHeaderWillOpen(_ searchHeader: SearchHeaderTableViewCell) {
+        if let topInset = searchHeaderCell?.frame.maxY {
+            tableView.bounces = false
+            view.addSubview(searchResultsContainer)
+            searchResultsContainer.pin(insideView: view, insets: UIEdgeInsets(top: topInset, left: 0.0, bottom: 0.0, right: 0.0))
+            searchResultsContainer.backgroundColor = UIColor.init(white: 0.0, alpha: 0.15)
+            searchResultsContainer.alpha = 0.0
+            self.view.layoutIfNeeded()
+            UIView.animate(withDuration: 0.25, animations: { 
+                self.searchResultsContainer.alpha = 1.0
+            })
+        }
+    }
+    
+    func searchHeaderDidOpen(_ searchHeader: SearchHeaderTableViewCell) {
+        
+    }
+    
+    func searchHeaderWillClose(_ searchHeader: SearchHeaderTableViewCell) {
+        UIView.animate(withDuration: 0.25, animations: { 
+            self.searchResultsContainer.alpha = 0.0
+            }) { (finished) in
+                self.tableView.bounces = true
+                self.searchResultsContainer.removeFromSuperview()
+        }
+    }
+    
+    func searchHeaderDidClose(_ searchHeader: SearchHeaderTableViewCell) {
+
     }
 }
 
