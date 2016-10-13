@@ -28,10 +28,10 @@
                 <constraints>
                     <constraint firstAttribute="bottomMargin" secondItem="kAA-kd-OJ2" secondAttribute="bottom" id="DV1-jh-Vck"/>
                     <constraint firstItem="kAA-kd-OJ2" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="42" id="EOP-ab-ISa"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="DHs-Jk-6zt" secondAttribute="trailing" id="G49-jh-ueh"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="DHs-Jk-6zt" secondAttribute="trailing" constant="8" id="G49-jh-ueh"/>
                     <constraint firstItem="DHs-Jk-6zt" firstAttribute="baseline" secondItem="kAA-kd-OJ2" secondAttribute="baseline" id="TgM-MU-EXi"/>
                     <constraint firstItem="DHs-Jk-6zt" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="kAA-kd-OJ2" secondAttribute="trailing" constant="24" id="Tls-Pc-uis"/>
-                    <constraint firstAttribute="leadingMargin" secondItem="kAA-kd-OJ2" secondAttribute="leading" id="cyp-2d-HlT"/>
+                    <constraint firstItem="kAA-kd-OJ2" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="8" id="cyp-2d-HlT"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
@@ -39,7 +39,7 @@
                 <outlet property="labelTopConstraint" destination="EOP-ab-ISa" id="lrV-wU-heX"/>
                 <outlet property="largeHeaderLabel" destination="kAA-kd-OJ2" id="JFx-n2-etF"/>
             </connections>
-            <point key="canvasLocation" x="140" y="84.5"/>
+            <point key="canvasLocation" x="162" y="-129"/>
         </tableViewCell>
     </objects>
 </document>

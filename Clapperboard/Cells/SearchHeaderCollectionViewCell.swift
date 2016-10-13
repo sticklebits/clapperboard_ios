@@ -54,7 +54,7 @@ class SearchHeaderCollectionViewCell: UICollectionViewCell {
         self.layoutIfNeeded()
     
         searchBarTopConstraint.constant = state == .closed ? 99.0 : 24.0
-        searchBarTrailingConstraint.constant = state == .closed ? 8.0 : 80.0
+        searchBarTrailingConstraint.constant = state == .closed ? 16.0 : 80.0
         cancelButton.setTitle(state == .searchResults ? "Done" : "Cancel", for: .normal)
         
         UIView .animate(withDuration: 0.25, animations: { 

@@ -42,7 +42,9 @@ class SearchHeaderTableViewCell: UITableViewCell {
             if state == .closed {
                 self.stateDelegate?.searchHeaderWillClose(self)
             } else {
-                self.stateDelegate?.searchHeaderWillOpen(self)
+                if oldValue == .closed {
+                    self.stateDelegate?.searchHeaderWillOpen(self)
+                }
             }
             updateSearchBar()
         }
@@ -76,7 +78,7 @@ class SearchHeaderTableViewCell: UITableViewCell {
         self.layoutIfNeeded()
         
         searchFieldBottomConstraint.constant = state == .closed ? 0.0 : 70.0
-        searchFieldTrailingConstraint.constant = state == .closed ? 0.0 : 80.0
+        searchFieldTrailingConstraint.constant = state == .closed ? 8.0 : 80.0
         searchLabelSpacingConstraint.constant = state == .closed ? 8.0 : 32.0
         actionButton.setTitle(state == .searchResults ? "Done" : "Cancel", for: .normal)
         
@@ -115,7 +117,6 @@ extension SearchHeaderTableViewCell: UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
         delegate?.searchHeader(self, didRequestSearch: textField.text)
         return true
     }

@@ -58,16 +58,16 @@
                     <constraint firstAttribute="trailingMargin" relation="lessThanOrEqual" secondItem="mnj-gW-akE" secondAttribute="trailing" id="1Pu-9y-bNK"/>
                     <constraint firstItem="kq0-Fr-8Me" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="38q-C9-H82"/>
                     <constraint firstItem="mnj-gW-akE" firstAttribute="bottom" secondItem="z0M-NS-6Gd" secondAttribute="bottom" id="5L7-kG-q93"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="z0M-NS-6Gd" secondAttribute="trailing" id="JIc-E7-A9W"/>
-                    <constraint firstAttribute="leadingMargin" secondItem="z0M-NS-6Gd" secondAttribute="leading" id="LFQ-cT-cwZ"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="z0M-NS-6Gd" secondAttribute="trailing" constant="8" id="JIc-E7-A9W"/>
+                    <constraint firstItem="z0M-NS-6Gd" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="8" id="LFQ-cT-cwZ"/>
                     <constraint firstItem="kq0-Fr-8Me" firstAttribute="bottom" secondItem="z0M-NS-6Gd" secondAttribute="bottom" id="QwE-11-Dn6"/>
                     <constraint firstItem="kq0-Fr-8Me" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="X98-uk-EXE"/>
-                    <constraint firstAttribute="leadingMargin" secondItem="pjx-nf-Mwf" secondAttribute="leading" id="XkL-RZ-PVU"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="pjx-nf-Mwf" secondAttribute="trailing" id="dtM-YV-pTh"/>
+                    <constraint firstItem="pjx-nf-Mwf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="8" id="XkL-RZ-PVU"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="pjx-nf-Mwf" secondAttribute="trailing" constant="8" id="dtM-YV-pTh"/>
                     <constraint firstAttribute="bottomMargin" secondItem="kq0-Fr-8Me" secondAttribute="bottom" id="gUI-sE-xYj"/>
                     <constraint firstItem="pjx-nf-Mwf" firstAttribute="top" secondItem="z0M-NS-6Gd" secondAttribute="bottom" constant="12" id="jwF-H2-jF8"/>
                     <constraint firstItem="sYu-JI-0Jy" firstAttribute="leading" secondItem="z0M-NS-6Gd" secondAttribute="leading" id="kTM-Bc-cIO"/>
-                    <constraint firstItem="mnj-gW-akE" firstAttribute="leading" secondItem="z0M-NS-6Gd" secondAttribute="trailing" constant="8" id="mIw-37-9lH"/>
+                    <constraint firstItem="mnj-gW-akE" firstAttribute="leading" secondItem="z0M-NS-6Gd" secondAttribute="trailing" constant="16" id="mIw-37-9lH"/>
                     <constraint firstItem="z0M-NS-6Gd" firstAttribute="top" secondItem="sYu-JI-0Jy" secondAttribute="bottom" constant="8" id="rnU-ox-Vfl"/>
                 </constraints>
             </tableViewCellContentView>
@@ -81,7 +81,7 @@
                 <outlet property="searchLabel" destination="sYu-JI-0Jy" id="gz2-Eh-f9e"/>
                 <outlet property="searchLabelSpacingConstraint" destination="rnU-ox-Vfl" id="XE7-hN-K52"/>
             </connections>
-            <point key="canvasLocation" x="61.5" y="-207"/>
+            <point key="canvasLocation" x="28" y="-326"/>
         </tableViewCell>
     </objects>
     <resources>
