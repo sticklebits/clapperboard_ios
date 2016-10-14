@@ -30,8 +30,10 @@ class SearchViewController: UIViewController {
     
     fileprivate var searches: (recent: [String], trending: [String]) = ([], ["star wars", "bond", "jurassic park"]) {
         didSet {
-            searches.recent = searches.recent.filter { (search) in
-                return searches.recent.index(of: search)! < 3
+            if (oldValue.recent != searches.recent) {
+                searches.recent = searches.recent.filter { (search) in
+                    return searches.recent.index(of: search)! < 3
+                }
             }
             tableView.reloadData()
         }
