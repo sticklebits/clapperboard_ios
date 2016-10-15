@@ -134,7 +134,7 @@ extension SearchViewController: UITableViewDataSource {
                 searchBar.minHeight = cell.frame.maxY - 32.0
                 searchBar.maxHeight = cell.filterSegment.frame.maxY
             }
-            
+            searchBar.cell?.backgroundColor = UIColor.white
             searchBar.cell = cell
             searchBar.cell?.delegate = self
             searchBar.cell?.stateDelegate = self
@@ -247,7 +247,8 @@ extension SearchViewController: SearchHeaderStateDelegate {
         searchResults.container.backgroundColor = UIColor.init(white: 0.0, alpha: 0.25)
         searchResults.container.alpha = 0.0
         
-        view.addSubview(searchBar.cell!)
+        view.addSubview(searchHeader)
+        searchHeader.backgroundColor = nil
         
         self.view.layoutIfNeeded()
         UIView.animate(withDuration: 0.25, animations: {
