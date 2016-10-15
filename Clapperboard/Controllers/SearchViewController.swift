@@ -36,14 +36,13 @@ class SearchViewController: UIViewController {
             if (oldValue.trending != searches.trending) {
                 searches.trending = searches.trending.first(n: 3)
             }
-            tableView.reloadData()
         }
     }
     
     fileprivate let tableView = UITableView(frame: CGRect.zero, style: .grouped)
     
     fileprivate var searchBar:
-        (cell: SearchHeaderTableViewCell?, minHeight: CGFloat, maxHeight: CGFloat) = (nil, 0.0, 0.0)
+        (cell: SearchHeaderTableViewCell?, view: UIView?, minHeight: CGFloat, maxHeight: CGFloat) = (nil, nil, 0.0, 0.0)
     
     fileprivate var searchResults:
         (container: UIView, topConstraint: NSLayoutConstraint?, controller: SearchResultsViewController) = (UIView(), nil, SearchResultsViewController())
@@ -217,7 +216,10 @@ extension SearchViewController: UITableViewDelegate {
 extension SearchViewController: SearchHeaderDelegate {
     
     func searchHeader(_ searchHeader: SearchHeaderTableViewCell, didRequestSearch: String?) {
+        
         let search = searchHeader.searchField.text!
+        if search == "" { return }
+        
         omdbAPI.searchForMovie(title: search, searchType: .multi)
         searches.recent.insert(search, at: 0)
     }
@@ -236,14 +238,18 @@ extension SearchViewController: SearchHeaderDelegate {
 extension SearchViewController: SearchHeaderStateDelegate {
     
     func searchHeaderWillOpen(_ searchHeader: SearchHeaderTableViewCell) {
+        
         tableView.bounces = false
+        
         view.addSubview(searchResults.container)
         let constraints = searchResults.container.pin(insideView: view, insets: UIEdgeInsets.zero)
-        constraints.top?.constant = searchBar.maxHeight
+        
         searchResults.container.backgroundColor = UIColor.init(white: 0.0, alpha: 0.25)
         searchResults.container.alpha = 0.0
+        
+        view.addSubview(searchBar.cell!)
+        
         self.view.layoutIfNeeded()
-        constraints.top?.constant = searchBar.minHeight
         UIView.animate(withDuration: 0.25, animations: {
             self.view.layoutIfNeeded()
             self.searchResults.container.alpha = 1.0
@@ -257,15 +263,17 @@ extension SearchViewController: SearchHeaderStateDelegate {
     
     func searchHeaderWillClose(_ searchHeader: SearchHeaderTableViewCell) {
         self.view.layoutIfNeeded()
-        searchResults.topConstraint?.constant = searchBar.maxHeight
         UIView.animate(withDuration: 0.25, animations: {
             self.view.layoutIfNeeded()
             self.searchResults.container.alpha = 0.0
             }) { (finished) in
-                self.tableView.bounces = true
+
                 self.searchResults.controller.movies = []
                 self.searchResults.container.subviews.forEach { $0.removeFromSuperview() }
                 self.searchResults.container.removeFromSuperview()
+                
+                self.tableView.reloadData()
+                self.tableView.bounces = true
         }
     }
     
