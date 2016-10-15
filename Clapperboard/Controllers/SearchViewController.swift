@@ -313,7 +313,16 @@ extension SearchViewController: OMDbAPIConnectorDelegate {
 extension SearchViewController {
     
     func clearRecentButtonWasTouched() {
-        searches.recent = []
+        if searches.recent.count == 0 { return }
+        
+        if let location = sections.index(of: .recentHeader) {
+            tableView.beginUpdates()
+            searches.recent = []
+            let range = NSMakeRange(location, 2)
+            let indexSet = NSIndexSet(indexesIn: range) as IndexSet
+            tableView.deleteSections(indexSet, with: .bottom)
+            tableView.endUpdates()
+        }
     }
     
     func closeSearchBar(gesture: UITapGestureRecognizer) {
