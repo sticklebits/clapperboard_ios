@@ -21,6 +21,7 @@
 		AA27ED841DAD788B000395B7 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA27ED831DAD788B000395B7 /* SearchViewController.swift */; };
 		AA74346A1DAD890400BFB26C /* SearchHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7434681DAD890400BFB26C /* SearchHeaderTableViewCell.swift */; };
 		AA74346B1DAD890400BFB26C /* SearchHeaderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA7434691DAD890400BFB26C /* SearchHeaderTableViewCell.xib */; };
+		AA74346D1DB2B7D900BFB26C /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA74346C1DB2B7D900BFB26C /* Array+Extensions.swift */; };
 		AA89A1E11DA164400064D142 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA89A1E01DA164400064D142 /* AppDelegate.swift */; };
 		AA89A1E31DA164400064D142 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA89A1E21DA164400064D142 /* ViewController.swift */; };
 		AA89A1E61DA164400064D142 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA89A1E41DA164400064D142 /* Main.storyboard */; };
@@ -71,6 +72,7 @@
 		AA27ED831DAD788B000395B7 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchViewController.swift; path = Controllers/SearchViewController.swift; sourceTree = "<group>"; };
 		AA7434681DAD890400BFB26C /* SearchHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchHeaderTableViewCell.swift; path = Cells/SearchHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		AA7434691DAD890400BFB26C /* SearchHeaderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SearchHeaderTableViewCell.xib; path = Cells/SearchHeaderTableViewCell.xib; sourceTree = "<group>"; };
+		AA74346C1DB2B7D900BFB26C /* Array+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Extensions.swift"; path = "Extensions/Array+Extensions.swift"; sourceTree = "<group>"; };
 		AA89A1DD1DA164400064D142 /* Clapperboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clapperboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA89A1E01DA164400064D142 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AA89A1E21DA164400064D142 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 			isa = PBXGroup;
 			children = (
 				F24F67361DAC1D7B00E2FFFC /* UIView+Extensions.swift */,
+				AA74346C1DB2B7D900BFB26C /* Array+Extensions.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -426,6 +429,7 @@
 				F2B893D31DA5315900CD6DCE /* SearchHeaderCollectionViewCell.swift in Sources */,
 				AA89A1E31DA164400064D142 /* ViewController.swift in Sources */,
 				AA89A1E11DA164400064D142 /* AppDelegate.swift in Sources */,
+				AA74346D1DB2B7D900BFB26C /* Array+Extensions.swift in Sources */,
 				AA27ED6C1DA23AFA000395B7 /* SearchResultsViewController.swift in Sources */,
 				AA27ED721DA2FFCF000395B7 /* MovieCollectionViewCell.swift in Sources */,
 				AA27ED741DA30F55000395B7 /* IndexedImageStore.swift in Sources */,
