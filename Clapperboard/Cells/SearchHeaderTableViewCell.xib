@@ -9,11 +9,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="170" id="KGk-i7-Jjw" customClass="SearchHeaderTableViewCell" customModule="Clapperboard" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="548" height="170"/>
+        <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="295" id="KGk-i7-Jjw" customClass="SearchHeaderTableViewCell" customModule="Clapperboard" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="548" height="295"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <frame key="frameInset" width="548" height="169"/>
+                <frame key="frameInset" width="548" height="294"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kq0-Fr-8Me" userLabel="Sizing View">
@@ -58,6 +58,12 @@
                                                 <action selector="filterSegmentDidChange:" destination="KGk-i7-Jjw" eventType="valueChanged" id="4EH-bm-lX7"/>
                                             </connections>
                                         </segmentedControl>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dyl-r3-5ZU" userLabel="Separator">
+                                            <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="1" id="u6A-f8-tDF"/>
+                                            </constraints>
+                                        </view>
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="0.75279189033742333" colorSpace="calibratedWhite"/>
                                     <constraints>
@@ -68,9 +74,12 @@
                                         <constraint firstItem="mnj-gW-akE" firstAttribute="top" secondItem="z0M-NS-6Gd" secondAttribute="top" id="8yf-bV-8zv"/>
                                         <constraint firstItem="z0M-NS-6Gd" firstAttribute="leading" secondItem="OUz-b6-oxL" secondAttribute="leading" constant="16" id="9vk-5o-vbV"/>
                                         <constraint firstItem="mnj-gW-akE" firstAttribute="leading" secondItem="z0M-NS-6Gd" secondAttribute="trailing" constant="22" id="Maf-mM-vvm"/>
+                                        <constraint firstAttribute="bottom" secondItem="Dyl-r3-5ZU" secondAttribute="bottom" id="TmM-Oh-GyE"/>
+                                        <constraint firstItem="Dyl-r3-5ZU" firstAttribute="leading" secondItem="OUz-b6-oxL" secondAttribute="leading" id="VJq-td-jTy"/>
                                         <constraint firstItem="sYu-JI-0Jy" firstAttribute="leading" secondItem="z0M-NS-6Gd" secondAttribute="leading" id="X2y-Eh-nFy"/>
                                         <constraint firstItem="pjx-nf-Mwf" firstAttribute="top" secondItem="z0M-NS-6Gd" secondAttribute="bottom" constant="16" id="ddx-jf-Dsg"/>
                                         <constraint firstItem="mnj-gW-akE" firstAttribute="bottom" secondItem="z0M-NS-6Gd" secondAttribute="bottom" id="elu-fg-9Yx"/>
+                                        <constraint firstAttribute="trailing" secondItem="Dyl-r3-5ZU" secondAttribute="trailing" id="kvU-lH-dU3"/>
                                         <constraint firstAttribute="trailing" secondItem="pjx-nf-Mwf" secondAttribute="trailing" constant="16" id="pOJ-uQ-JXq"/>
                                     </constraints>
                                 </view>
@@ -106,7 +115,7 @@
                 <outlet property="searchLabel" destination="sYu-JI-0Jy" id="gz2-Eh-f9e"/>
                 <outlet property="searchLabelSpacingConstraint" destination="6J4-Tx-9Xd" id="C9D-c1-uL7"/>
             </connections>
-            <point key="canvasLocation" x="109" y="-75"/>
+            <point key="canvasLocation" x="73" y="-119.5"/>
         </tableViewCell>
     </objects>
     <resources>

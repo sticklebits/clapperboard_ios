@@ -249,12 +249,15 @@ extension SearchViewController: SearchHeaderStateDelegate {
         
         view.addSubview(searchHeader)
         searchHeader.backgroundColor = nil
+        searchResults.controller.contentInset = UIEdgeInsets(top: searchHeader.height, left: 0.0, bottom: 0.0, right: 0.0)
         
         self.view.layoutIfNeeded()
+        
         UIView.animate(withDuration: 0.25, animations: {
             self.view.layoutIfNeeded()
             self.searchResults.container.alpha = 1.0
         })
+        
         searchResults.topConstraint = constraints.top
     }
     
@@ -290,6 +293,7 @@ extension SearchViewController: OMDbAPIConnectorDelegate {
     func omdbAPIConnector(_ omdbAPIConnector: OMDbAPIConnector, didFindMovieList movieList: [Movie]) {
         searchResults.controller.movies = movieList
         if movieList.count > 0 {
+            searchBar.cell?.searchField.resignFirstResponder()
             addChildViewController(searchResults.controller)
             searchResults.container.addSubview(searchResults.controller.view)
             searchResults.controller.view.pin(insideView: searchResults.container, insets: UIEdgeInsets.zero)

@@ -19,6 +19,12 @@ class SearchResultsViewController: UIViewController {
         }
     }
     
+    var contentInset: UIEdgeInsets? {
+        didSet {
+            collectionView?.contentInset = contentInset!
+        }
+    }
+    
     let imageStore = IndexedImageStore(blankImage: UIImage(named: "no_movie_image"), diskPathToCache: "movie_poster_image_store")
     private let collectionView: UICollectionView!
     
