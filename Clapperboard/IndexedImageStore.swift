@@ -83,4 +83,12 @@ class IndexedImageStore: NSObject {
     func isImageStored(atIndexPath indexPath: IndexPath) -> Bool {
         return images[indexPath] != nil
     }
+    
+    func clearImage(indexPath: IndexPath) {
+        images.removeValue(forKey: indexPath)
+    }
+    
+    func indexPaths() -> [IndexPath] {
+        return Array(images.keys)
+    }
 }

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="182" id="KGk-i7-Jjw" customClass="SearchHeaderTableViewCell" customModule="Clapperboard" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="559" height="182"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <frame key="frameInset" width="559" height="181"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kq0-Fr-8Me" userLabel="Sizing View">
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="1" id="U41-Dh-T9u"/>
+                            <constraint firstAttribute="height" priority="750" constant="112" id="qRP-ul-442"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Search" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sYu-JI-0Jy">
+                        <fontDescription key="fontDescription" type="system" weight="black" pointSize="40"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" background="tab_search" translatesAutoresizingMaskIntoConstraints="NO" id="z0M-NS-6Gd">
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="48" id="6ya-vF-pKx"/>
+                        </constraints>
+                        <nil key="textColor"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </textField>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mnj-gW-akE">
+                        <state key="normal" title="Cancel"/>
+                        <connections>
+                            <action selector="actionButtonWasTouched:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="k4e-3E-P56"/>
+                        </connections>
+                    </button>
+                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="pjx-nf-Mwf">
+                        <segments>
+                            <segment title="Un-nominated"/>
+                            <segment title="All Movies"/>
+                        </segments>
+                        <connections>
+                            <action selector="filterSegmentDidChange:" destination="KGk-i7-Jjw" eventType="valueChanged" id="4EH-bm-lX7"/>
+                        </connections>
+                    </segmentedControl>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="mnj-gW-akE" firstAttribute="top" secondItem="z0M-NS-6Gd" secondAttribute="top" id="1G0-L8-OtB"/>
+                    <constraint firstAttribute="trailingMargin" relation="lessThanOrEqual" secondItem="mnj-gW-akE" secondAttribute="trailing" id="1Pu-9y-bNK"/>
+                    <constraint firstItem="kq0-Fr-8Me" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="38q-C9-H82"/>
+                    <constraint firstItem="mnj-gW-akE" firstAttribute="bottom" secondItem="z0M-NS-6Gd" secondAttribute="bottom" id="5L7-kG-q93"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="z0M-NS-6Gd" secondAttribute="trailing" constant="8" id="JIc-E7-A9W"/>
+                    <constraint firstItem="z0M-NS-6Gd" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="8" id="LFQ-cT-cwZ"/>
+                    <constraint firstItem="kq0-Fr-8Me" firstAttribute="bottom" secondItem="z0M-NS-6Gd" secondAttribute="bottom" id="QwE-11-Dn6"/>
+                    <constraint firstItem="kq0-Fr-8Me" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="X98-uk-EXE"/>
+                    <constraint firstItem="pjx-nf-Mwf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="8" id="XkL-RZ-PVU"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="pjx-nf-Mwf" secondAttribute="trailing" constant="8" id="dtM-YV-pTh"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="kq0-Fr-8Me" secondAttribute="bottom" id="gUI-sE-xYj"/>
+                    <constraint firstItem="pjx-nf-Mwf" firstAttribute="top" secondItem="z0M-NS-6Gd" secondAttribute="bottom" constant="12" id="jwF-H2-jF8"/>
+                    <constraint firstItem="sYu-JI-0Jy" firstAttribute="leading" secondItem="z0M-NS-6Gd" secondAttribute="leading" id="kTM-Bc-cIO"/>
+                    <constraint firstItem="mnj-gW-akE" firstAttribute="leading" secondItem="z0M-NS-6Gd" secondAttribute="trailing" constant="16" id="mIw-37-9lH"/>
+                    <constraint firstItem="z0M-NS-6Gd" firstAttribute="top" secondItem="sYu-JI-0Jy" secondAttribute="bottom" constant="8" id="rnU-ox-Vfl"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="actionButton" destination="mnj-gW-akE" id="2Cm-o4-aJf"/>
+                <outlet property="cellHeightConstraint" destination="qRP-ul-442" id="bTi-OR-BRZ"/>
+                <outlet property="filterSegment" destination="pjx-nf-Mwf" id="gmq-ni-d1Z"/>
+                <outlet property="searchField" destination="z0M-NS-6Gd" id="DD8-dG-eb0"/>
+                <outlet property="searchFieldBottomConstraint" destination="QwE-11-Dn6" id="Xuy-c3-6mj"/>
+                <outlet property="searchFieldTrailingConstraint" destination="JIc-E7-A9W" id="wnF-aU-1ge"/>
+                <outlet property="searchLabel" destination="sYu-JI-0Jy" id="gz2-Eh-f9e"/>
+                <outlet property="searchLabelSpacingConstraint" destination="rnU-ox-Vfl" id="XE7-hN-K52"/>
+            </connections>
+            <point key="canvasLocation" x="28" y="-326"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="tab_search" width="31" height="27"/>
+    </resources>
+</document>

@@ -46,9 +46,9 @@ class SearchResultsViewController: UIViewController {
     }
 
     func setupCollectionView() {
-        collectionView.backgroundColor = UIColor.white
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.backgroundColor = UIColor.white
         collectionView.register(UINib(nibName: "MovieCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: String(describing: MovieCollectionViewCell.classForCoder()))
         view.addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -62,6 +62,7 @@ class SearchResultsViewController: UIViewController {
         var item = 0
         movies.forEach { (movie) in
             let indexPath = IndexPath(item: item, section: 0)
+            imageStore.clearImage(indexPath: indexPath)
             imageStore.loadImage(urlString: movie.poster, forIndexPath: indexPath) { (image, indexPath) in
                 if let cell = self.collectionView.cellForItem(at: indexPath) as? MovieCollectionViewCell {
                     cell.moviePosterImageView.image = image
