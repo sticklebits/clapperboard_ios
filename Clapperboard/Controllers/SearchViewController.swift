@@ -249,7 +249,8 @@ extension SearchViewController: SearchHeaderStateDelegate {
         
         view.addSubview(searchHeader)
         searchHeader.backgroundColor = nil
-        searchResults.controller.contentInset = UIEdgeInsets(top: searchHeader.height, left: 0.0, bottom: 0.0, right: 0.0)
+        let bottomOfTabBar = tabBarController != nil ? tabBarController!.tabBar.frame.height : 0.0
+        searchResults.controller.contentInset = UIEdgeInsets(top: searchHeader.height, left: 0.0, bottom: bottomOfTabBar, right: 0.0)
         
         self.view.layoutIfNeeded()
         
