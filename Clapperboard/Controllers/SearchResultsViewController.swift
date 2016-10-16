@@ -110,9 +110,7 @@ class SearchResultsViewController: UIViewController {
             
             imageStore.clearImage(indexPath: indexPath)
             imageStore.loadImage(urlString: movie.poster, forIndexPath: indexPath) { (image, indexPath) in
-                if let cell = self.collectionView.cellForItem(at: indexPath) as? MovieCollectionViewCell {
-                    cell.moviePosterImageView.image = image
-                }
+                self.collectionView.reloadItems(at: [indexPath])
             }
             item += 1
         }
@@ -198,7 +196,7 @@ extension SearchResultsViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let movie = movies[indexPath] {
-            delegate?.searchResultsViewController(viewController: self, didSelectMovie: movie)
+            delegate?.searchResultsViewController(viewController: self, didSelectMovie: (movie: movie, image: imageStore.image(atIndexPath: indexPath)))
         }
     }
     
@@ -215,6 +213,6 @@ extension SearchResultsViewController: UICollectionViewDelegate {
 
 protocol SearchResultsViewControllerDelegate {
     func searchResultsViewController(viewController: SearchResultsViewController, shouldFetchPage page: Int)
-    func searchResultsViewController(viewController: SearchResultsViewController, didSelectMovie movie: Movie)
+    func searchResultsViewController(viewController: SearchResultsViewController, didSelectMovie meta: (movie: Movie, image: UIImage?))
     func searchResultsViewControllerDidCancel(viewController: SearchResultsViewController)
 }

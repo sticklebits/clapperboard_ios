@@ -146,7 +146,6 @@
 				AA27ED771DA44B1F000395B7 /* LeaderboardViewController.swift */,
 				AA27ED7A1DA45897000395B7 /* NominationsViewController.swift */,
 				AA27ED831DAD788B000395B7 /* SearchViewController.swift */,
-				AA89A1E21DA164400064D142 /* ViewController.swift */,
 			);
 			name = "Root View Controllers";
 			sourceTree = "<group>";
@@ -165,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				AA27ED811DA46E91000395B7 /* OLD_SearchViewController.swift */,
+				AA89A1E21DA164400064D142 /* ViewController.swift */,
 			);
 			name = "Stuff to delete";
 			sourceTree = "<group>";

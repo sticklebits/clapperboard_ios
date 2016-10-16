@@ -75,6 +75,10 @@ extension ViewController: OMDbAPIConnectorDelegate {
 }
 
 extension ViewController: SearchResultsViewControllerDelegate {
+    internal func searchResultsViewController(viewController: SearchResultsViewController, didSelectMovie meta: (movie: Movie, image: UIImage?)) {
+        
+    }
+
     
     internal func searchResultsViewController(viewController: SearchResultsViewController, shouldFetchPage page: Int) {
         

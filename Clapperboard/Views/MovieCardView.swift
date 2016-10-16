@@ -10,12 +10,13 @@ import UIKit
 
 class MovieCardView: UIView {
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+    @IBOutlet weak var movieImage: UIImageView!
+    @IBOutlet weak var movieTitleLabel: UILabel!
+    @IBOutlet weak var movieYearLabel: UILabel!
+    @IBOutlet weak var movieDescriptionLabel: UILabel!
+    
+    override func awakeFromNib() {
+        movieImage.clipsToBounds = true
+        movieImage.layer.cornerRadius = 8.0
     }
-    */
-
 }
