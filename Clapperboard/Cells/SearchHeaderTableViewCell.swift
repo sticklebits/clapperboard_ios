@@ -78,7 +78,7 @@ class SearchHeaderTableViewCell: UITableViewCell {
         self.layoutIfNeeded()
         
         searchFieldBottomConstraint.constant = state == .closed ? 0.0 : 70.0
-        searchFieldTrailingConstraint.constant = state == .closed ? 8.0 : 80.0
+        searchFieldTrailingConstraint.constant = state == .closed ? 16.0 : 80.0
         searchLabelSpacingConstraint.constant = state == .closed ? 8.0 : 32.0
         actionButton.setTitle(state == .searchResults ? "Done" : "Cancel", for: .normal)
         

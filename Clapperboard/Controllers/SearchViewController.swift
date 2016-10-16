@@ -36,17 +36,15 @@ class SearchViewController: UIViewController {
             if (oldValue.trending != searches.trending) {
                 searches.trending = searches.trending.first(n: 3)
             }
-            tableView.reloadData()
         }
     }
     
     fileprivate let tableView = UITableView(frame: CGRect.zero, style: .grouped)
     
     fileprivate var searchBar:
-        (cell: SearchHeaderTableViewCell?, minHeight: CGFloat, maxHeight: CGFloat) = (nil, 0.0, 0.0)
+        (cell: SearchHeaderTableViewCell?, view: UIView?, minHeight: CGFloat, maxHeight: CGFloat) = (nil, nil, 0.0, 0.0)
     
-    fileprivate var searchResults:
-        (container: UIView, topConstraint: NSLayoutConstraint?, controller: SearchResultsViewController) = (UIView(), nil, SearchResultsViewController())
+    fileprivate var searchResults = SearchResultsViewController()
     
     fileprivate let omdbAPI = OMDbAPIConnector()
     
@@ -55,8 +53,7 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         omdbAPI.delegate = self
-        let closeSearchGesture = UITapGestureRecognizer(target: self, action: #selector(closeSearchBar))
-        searchResults.container.addGestureRecognizer(closeSearchGesture)
+        searchResults.delegate = self
         setupTableView()
     }
     
@@ -135,7 +132,7 @@ extension SearchViewController: UITableViewDataSource {
                 searchBar.minHeight = cell.frame.maxY - 32.0
                 searchBar.maxHeight = cell.filterSegment.frame.maxY
             }
-            
+            searchBar.cell?.backgroundColor = UIColor.white
             searchBar.cell = cell
             searchBar.cell?.delegate = self
             searchBar.cell?.stateDelegate = self
@@ -203,11 +200,12 @@ extension SearchViewController: UITableViewDelegate {
             
         case .trending:
             search = searches.trending[indexPath.row]
-            searches.recent.insert(search, at: 0)
-        
         }
+        
+        addRecentSearch(search)
         searchBar.cell?.searchField.text = search
         searchBar.cell?.state = .searchInput
+        searchResults.isLoading = true
         omdbAPI.searchForMovie(title: search, searchType: .multi)
     }
 }
@@ -217,7 +215,12 @@ extension SearchViewController: UITableViewDelegate {
 extension SearchViewController: SearchHeaderDelegate {
     
     func searchHeader(_ searchHeader: SearchHeaderTableViewCell, didRequestSearch: String?) {
+        
         let search = searchHeader.searchField.text!
+        if search == "" { return }
+        
+        searchHeader.searchField.resignFirstResponder()
+        searchResults.isLoading = true
         omdbAPI.searchForMovie(title: search, searchType: .multi)
         searches.recent.insert(search, at: 0)
     }
@@ -236,19 +239,24 @@ extension SearchViewController: SearchHeaderDelegate {
 extension SearchViewController: SearchHeaderStateDelegate {
     
     func searchHeaderWillOpen(_ searchHeader: SearchHeaderTableViewCell) {
+        
         tableView.bounces = false
-        view.addSubview(searchResults.container)
-        let constraints = searchResults.container.pin(insideView: view, insets: UIEdgeInsets.zero)
-        constraints.top?.constant = searchBar.maxHeight
-        searchResults.container.backgroundColor = UIColor.init(white: 0.0, alpha: 0.25)
-        searchResults.container.alpha = 0.0
+        
+        addChildViewController(searchResults)
+        searchResults.view.alpha = 0.0
+        view.addSubview(searchResults.view)
+        searchResults.view.pin(insideView: view, insets: UIEdgeInsets.zero)
+        
+        view.addSubview(searchHeader)
+        searchHeader.backgroundColor = nil
+        let bottomOfTabBar = tabBarController != nil ? tabBarController!.tabBar.frame.height : 0.0
+        searchResults.contentInset = UIEdgeInsets(top: searchHeader.height, left: 0.0, bottom: bottomOfTabBar, right: 0.0)
+        
         self.view.layoutIfNeeded()
-        constraints.top?.constant = searchBar.minHeight
+        
         UIView.animate(withDuration: 0.25, animations: {
-            self.view.layoutIfNeeded()
-            self.searchResults.container.alpha = 1.0
+            self.searchResults.view.alpha = 1.0
         })
-        searchResults.topConstraint = constraints.top
     }
     
     func searchHeaderDidOpen(_ searchHeader: SearchHeaderTableViewCell) {
@@ -257,15 +265,16 @@ extension SearchViewController: SearchHeaderStateDelegate {
     
     func searchHeaderWillClose(_ searchHeader: SearchHeaderTableViewCell) {
         self.view.layoutIfNeeded()
-        searchResults.topConstraint?.constant = searchBar.maxHeight
         UIView.animate(withDuration: 0.25, animations: {
             self.view.layoutIfNeeded()
-            self.searchResults.container.alpha = 0.0
+            self.searchResults.view.alpha = 0.0
             }) { (finished) in
+
+                self.searchResults.movies = []
+                self.searchResults.view.removeFromSuperview()
+                
+                self.tableView.reloadData()
                 self.tableView.bounces = true
-                self.searchResults.controller.movies = []
-                self.searchResults.container.subviews.forEach { $0.removeFromSuperview() }
-                self.searchResults.container.removeFromSuperview()
         }
     }
     
@@ -279,14 +288,8 @@ extension SearchViewController: SearchHeaderStateDelegate {
 extension SearchViewController: OMDbAPIConnectorDelegate {
     
     func omdbAPIConnector(_ omdbAPIConnector: OMDbAPIConnector, didFindMovieList movieList: [Movie]) {
-        searchResults.controller.movies = movieList
-        if movieList.count > 0 {
-            addChildViewController(searchResults.controller)
-            searchResults.container.addSubview(searchResults.controller.view)
-            searchResults.controller.view.pin(insideView: searchResults.container, insets: UIEdgeInsets.zero)
-        } else {
-            searchResults.controller.view.removeFromSuperview()
-        }
+        searchResults.movies = movieList
+        searchResults.isLoading = false
     }
     
     func omdbAPIConnector(_ omdbAPIConnector: OMDbAPIConnector, didFindMovie movie: Movie?) {
@@ -300,15 +303,51 @@ extension SearchViewController: OMDbAPIConnectorDelegate {
 }
 
 
+// MARK: - SearchResultsViewControllerDelegate
+
+extension SearchViewController: SearchResultsViewControllerDelegate {
+    
+    func searchResultsViewController(viewController: SearchResultsViewController, didSelectMovie movie: Movie) {
+        print ("Selected: \(movie.title)")
+    }
+    
+    func searchResultsViewControllerDidCancel(viewController: SearchResultsViewController) {
+        searchBar.cell?.state = .closed
+    }
+}
+
+
 // MARK: - Actions
 
 extension SearchViewController {
     
     func clearRecentButtonWasTouched() {
-        searches.recent = []
+        if searches.recent.count == 0 { return }
+        
+        if let location = sections.index(of: .recentHeader) {
+            tableView.beginUpdates()
+            searches.recent = []
+            let range = NSMakeRange(location, 2)
+            let indexSet = NSIndexSet(indexesIn: range) as IndexSet
+            tableView.deleteSections(indexSet, with: .bottom)
+            tableView.endUpdates()
+        }
     }
     
     func closeSearchBar(gesture: UITapGestureRecognizer) {
         searchBar.cell?.state = .closed
+    }
+}
+
+
+// MARK: - Helpers
+
+extension SearchViewController {
+    
+    func addRecentSearch(_ search: String) {
+        if let existingIndex = searches.recent.index(of: search) {
+            searches.recent.remove(at: existingIndex)
+        }
+        searches.recent.insert(search, at: 0)
     }
 }
