@@ -222,7 +222,7 @@ extension SearchViewController: SearchHeaderDelegate {
         searchHeader.searchField.resignFirstResponder()
         searchResults.isLoading = true
         omdbAPI.searchForMovie(title: search, searchType: .multi)
-        searches.recent.insert(search, at: 0)
+        addRecentSearch(search)
     }
     
     func searchHeader(_ searchHeader: SearchHeaderTableViewCell, didTouchButton button: UIButton) {
