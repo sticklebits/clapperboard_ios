@@ -35,11 +35,11 @@ class ViewController: UIViewController {
 
 extension ViewController: OMDbAPIConnectorDelegate {
     
-    func omdbAPIConnector(_ omdbAPIConnector: OMDbAPIConnector, didFindMovieList movieList: [Movie]) {
+    func omdbAPIConnector(_ omdbAPIConnector: OMDbAPIConnector, didFindMovieList movieList: [Movie], forPage page: Int) {
         let searchResultsViewController = SearchResultsViewController()
         searchResultsViewController.delegate = self
         let navigationController = UINavigationController(rootViewController: searchResultsViewController)
-        searchResultsViewController.movies = movieList
+        searchResultsViewController.set(movies: movieList, forPage: page)
         navigationController.modalPresentationStyle = .formSheet
         show(navigationController, sender: self)
     }
@@ -75,6 +75,11 @@ extension ViewController: OMDbAPIConnectorDelegate {
 }
 
 extension ViewController: SearchResultsViewControllerDelegate {
+    
+    internal func searchResultsViewController(viewController: SearchResultsViewController, shouldFetchPage page: Int) {
+        
+    }
+
     
     func searchResultsViewControllerDidCancel(viewController: SearchResultsViewController) {
         viewController.dismiss(animated: true, completion: nil)

@@ -21,6 +21,7 @@ class MovieRequest: APIRequest {
     var plot = "full"
     var dataFormat = "r"
     var imdbID = ""
+    var page: Int = 1
     
     init(title: String, searchType: SearchType) {
         self.title = title
@@ -42,6 +43,9 @@ class MovieRequest: APIRequest {
         let searchTitle = "*" + title.trimmingCharacters(in: CharacterSet(charactersIn: " ")) + "*"
         var returnDictionary = [searchType.rawValue:searchTitle, "type":format, "plot":plot, "r":dataFormat]
         if (imdbID.characters.count > 0) { returnDictionary[imdbID] = imdbID }
+        if searchType == .multi {
+            returnDictionary["page"] = "\(page)"
+        }
         return returnDictionary
     }
 }
