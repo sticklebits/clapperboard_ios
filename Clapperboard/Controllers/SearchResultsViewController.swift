@@ -150,6 +150,7 @@ extension SearchResultsViewController: UICollectionViewDataSource {
     
     func clearMovies() {
         movies = [:]
+        updateCollectionView(page: nil)
     }
     
     func clearMoviesInSection(section: Int) {
