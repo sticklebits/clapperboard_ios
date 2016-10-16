@@ -12,10 +12,15 @@ class SearchResultsViewController: UIViewController {
 
     var delegate: SearchResultsViewControllerDelegate?
     
+    var isLoading: Bool = false {
+        didSet {
+            loadingView?.isLoading = isLoading
+        }
+    }
+    
     var movies: [Movie] = [] {
         didSet {
-            refreshImageStore()
-            collectionView.reloadData()
+            updateCollectionView()
         }
     }
     
@@ -27,6 +32,9 @@ class SearchResultsViewController: UIViewController {
     
     let imageStore = IndexedImageStore(blankImage: UIImage(named: "no_movie_image"), diskPathToCache: "movie_poster_image_store")
     private let collectionView: UICollectionView!
+    
+    fileprivate var loadingView: LoadingView?
+    fileprivate var touchToCancelView = UIView()
     
     required init() {
         let layout = UICollectionViewFlowLayout()
@@ -48,20 +56,43 @@ class SearchResultsViewController: UIViewController {
         super.viewDidLoad()
         title = "Search Results"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelButtonWasTouched(sender:)))
+        setupTouchToCancelView()
         setupCollectionView()
     }
 
+    func setupTouchToCancelView() {
+        touchToCancelView.backgroundColor = UIColor.init(white: 0.0, alpha: 0.5)
+        view.addSubview(touchToCancelView)
+        touchToCancelView.pin(insideView: view, insets: UIEdgeInsets.zero)
+        touchToCancelView.isUserInteractionEnabled = true
+        let closeSearchGesture = UITapGestureRecognizer(target: self, action: #selector(viewWasTouched(gesture:)))
+        touchToCancelView.addGestureRecognizer(closeSearchGesture)
+    }
+    
     func setupCollectionView() {
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.backgroundColor = UIColor.white
+
+        loadingView = UINib(nibName: "LoadingView", bundle: nil).instantiate(withOwner: self, options: nil)[0] as? LoadingView
+        collectionView.backgroundView = loadingView
+        loadingView?.isLoading = isLoading
+        
         collectionView.register(UINib(nibName: "MovieCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: String(describing: MovieCollectionViewCell.classForCoder()))
         view.addSubview(collectionView)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        view.addConstraint(NSLayoutConstraint(item: collectionView, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1.0, constant: 0.0))
-        view.addConstraint(NSLayoutConstraint(item: collectionView, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1.0, constant: 0.0))
-        view.addConstraint(NSLayoutConstraint(item: collectionView, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1.0, constant: 0.0))
-        view.addConstraint(NSLayoutConstraint(item: collectionView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: 0.0))
+        collectionView.pin(insideView: view, insets: UIEdgeInsets.zero)
+        
+        updateCollectionView()
+    }
+    
+    func updateCollectionView() {
+        refreshImageStore()
+        collectionView.isUserInteractionEnabled = movies.count > 0
+        collectionView.backgroundColor = collectionViewBackgroundColor()
+        collectionView.reloadData()
+    }
+    
+    func collectionViewBackgroundColor() -> UIColor? {
+        return movies.count == 0 ? nil : UIColor.white
     }
     
     func refreshImageStore() {
@@ -80,6 +111,12 @@ class SearchResultsViewController: UIViewController {
     
     override func viewWillLayoutSubviews() {
         collectionView.frame = view.frame
+    }
+    
+    func viewWasTouched(gesture: UIGestureRecognizer) {
+        if movies.count == 0 {
+            delegate?.searchResultsViewControllerDidCancel(viewController: self)
+        }
     }
     
     func cancelButtonWasTouched(sender: AnyObject) {
@@ -110,11 +147,10 @@ extension SearchResultsViewController: UICollectionViewDataSource {
 
 extension SearchResultsViewController: UICollectionViewDelegate {
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section != 0 { return }
         delegate?.searchResultsViewController(viewController: self, didSelectMovie: movies[indexPath.row])
     }
-    
 }
 
 protocol SearchResultsViewControllerDelegate {

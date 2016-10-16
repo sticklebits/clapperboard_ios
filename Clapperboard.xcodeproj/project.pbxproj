@@ -22,6 +22,8 @@
 		AA74346A1DAD890400BFB26C /* SearchHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7434681DAD890400BFB26C /* SearchHeaderTableViewCell.swift */; };
 		AA74346B1DAD890400BFB26C /* SearchHeaderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA7434691DAD890400BFB26C /* SearchHeaderTableViewCell.xib */; };
 		AA74346D1DB2B7D900BFB26C /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA74346C1DB2B7D900BFB26C /* Array+Extensions.swift */; };
+		AA7434731DB2FC2F00BFB26C /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7434721DB2FC2F00BFB26C /* LoadingView.swift */; };
+		AA7434751DB2FC4300BFB26C /* LoadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA7434741DB2FC4300BFB26C /* LoadingView.xib */; };
 		AA89A1E11DA164400064D142 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA89A1E01DA164400064D142 /* AppDelegate.swift */; };
 		AA89A1E31DA164400064D142 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA89A1E21DA164400064D142 /* ViewController.swift */; };
 		AA89A1E61DA164400064D142 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA89A1E41DA164400064D142 /* Main.storyboard */; };
@@ -73,6 +75,8 @@
 		AA7434681DAD890400BFB26C /* SearchHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchHeaderTableViewCell.swift; path = Cells/SearchHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		AA7434691DAD890400BFB26C /* SearchHeaderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SearchHeaderTableViewCell.xib; path = Cells/SearchHeaderTableViewCell.xib; sourceTree = "<group>"; };
 		AA74346C1DB2B7D900BFB26C /* Array+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Extensions.swift"; path = "Extensions/Array+Extensions.swift"; sourceTree = "<group>"; };
+		AA7434721DB2FC2F00BFB26C /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingView.swift; path = Views/LoadingView.swift; sourceTree = "<group>"; };
+		AA7434741DB2FC4300BFB26C /* LoadingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LoadingView.xib; path = Views/LoadingView.xib; sourceTree = "<group>"; };
 		AA89A1DD1DA164400064D142 /* Clapperboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clapperboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA89A1E01DA164400064D142 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AA89A1E21DA164400064D142 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -129,7 +133,6 @@
 				AA27ED771DA44B1F000395B7 /* LeaderboardViewController.swift */,
 				AA27ED7A1DA45897000395B7 /* NominationsViewController.swift */,
 				AA27ED831DAD788B000395B7 /* SearchViewController.swift */,
-				AA27ED811DA46E91000395B7 /* OLD_SearchViewController.swift */,
 				AA89A1E21DA164400064D142 /* ViewController.swift */,
 			);
 			name = "Root View Controllers";
@@ -143,6 +146,39 @@
 				F2B893D51DA5316400CD6DCE /* TableView */,
 			);
 			name = Cells;
+			sourceTree = "<group>";
+		};
+		AA74346E1DB2F8ED00BFB26C /* Stuff to delete */ = {
+			isa = PBXGroup;
+			children = (
+				AA27ED811DA46E91000395B7 /* OLD_SearchViewController.swift */,
+			);
+			name = "Stuff to delete";
+			sourceTree = "<group>";
+		};
+		AA74346F1DB2F90D00BFB26C /* General Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				AA27ED6B1DA23AFA000395B7 /* SearchResultsViewController.swift */,
+			);
+			name = "General Controllers";
+			sourceTree = "<group>";
+		};
+		AA7434711DB2FC0700BFB26C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AA7434761DB2FC4700BFB26C /* Loading View */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		AA7434761DB2FC4700BFB26C /* Loading View */ = {
+			isa = PBXGroup;
+			children = (
+				AA7434721DB2FC2F00BFB26C /* LoadingView.swift */,
+				AA7434741DB2FC4300BFB26C /* LoadingView.xib */,
+			);
+			name = "Loading View";
 			sourceTree = "<group>";
 		};
 		AA89A1D41DA1643F0064D142 = {
@@ -168,9 +204,12 @@
 		AA89A1DF1DA164400064D142 /* Clapperboard */ = {
 			isa = PBXGroup;
 			children = (
+				AA74346E1DB2F8ED00BFB26C /* Stuff to delete */,
 				F24F67351DAC1D4500E2FFFC /* Extensions */,
 				AA27ED7C1DA46A8E000395B7 /* Cells */,
 				AA27ED791DA450CE000395B7 /* Root View Controllers */,
+				AA74346F1DB2F90D00BFB26C /* General Controllers */,
+				AA7434711DB2FC0700BFB26C /* Views */,
 				AA89A2161DA17C910064D142 /* Models */,
 				AA89A20E1DA170F00064D142 /* API Connectors */,
 				AA89A1E01DA164400064D142 /* AppDelegate.swift */,
@@ -178,7 +217,6 @@
 				AA89A1E71DA164400064D142 /* Assets.xcassets */,
 				AA89A1E91DA164400064D142 /* LaunchScreen.storyboard */,
 				AA89A1EC1DA164400064D142 /* Info.plist */,
-				AA27ED6B1DA23AFA000395B7 /* SearchResultsViewController.swift */,
 				AA27ED711DA2FFCF000395B7 /* MovieCollectionViewCell.swift */,
 				AA27ED6F1DA2FEDC000395B7 /* MovieCollectionViewCell.xib */,
 				AA27ED731DA30F55000395B7 /* IndexedImageStore.swift */,
@@ -393,6 +431,7 @@
 				F2B893D41DA5315900CD6DCE /* SearchHeaderCollectionViewCell.xib in Resources */,
 				AA89A1E81DA164400064D142 /* Assets.xcassets in Resources */,
 				AA89A1E61DA164400064D142 /* Main.storyboard in Resources */,
+				AA7434751DB2FC4300BFB26C /* LoadingView.xib in Resources */,
 				AA27ED801DA46AC8000395B7 /* LargeHeadingTableViewCell.xib in Resources */,
 				AA27ED701DA2FEDC000395B7 /* MovieCollectionViewCell.xib in Resources */,
 			);
@@ -422,6 +461,7 @@
 				AA27ED821DA46E91000395B7 /* OLD_SearchViewController.swift in Sources */,
 				AA89A2131DA171950064D142 /* OMDbAPIConnector.swift in Sources */,
 				F25052061DABCC0700930870 /* LargeHeadingView.swift in Sources */,
+				AA7434731DB2FC2F00BFB26C /* LoadingView.swift in Sources */,
 				AA27ED7B1DA45897000395B7 /* NominationsViewController.swift in Sources */,
 				AA27ED841DAD788B000395B7 /* SearchViewController.swift in Sources */,
 				AA89A2111DA171290064D142 /* APIConnector.swift in Sources */,
