@@ -28,6 +28,13 @@ class OMDbAPIConnector: APIConnector {
         sendRequest(endpoint: "", method: .get, request: request!)
     }
     
+    func currentSearch(fetchPage page: Int) {
+        if let request = self.request as? MovieRequest {
+            request.page = page
+            sendRequest(endpoint: "", method: .get, request: request)
+        }
+    }
+    
     override func didReceive(response: [String:Any]?) {
         if response == nil { return }
         
@@ -37,9 +44,10 @@ class OMDbAPIConnector: APIConnector {
         
         DispatchQueue.main.async {
             if status == "True" {
-                if (self.request as! MovieRequest).searchType == .multi {
+                let request = self.request as! MovieRequest
+                if request.searchType == .multi {
                     let movies = self.movies(fromJSON: response!)
-                    self.delegate?.omdbAPIConnector(self, didFindMovieList: movies)
+                    self.delegate?.omdbAPIConnector(self, didFindMovieList: movies, forPage: request.page)
                 } else {
                     let movie = Movie(fromJSON: response!)
                     self.delegate?.omdbAPIConnector(self, didFindMovie: movie)
@@ -74,6 +82,6 @@ class OMDbAPIConnector: APIConnector {
 
 protocol OMDbAPIConnectorDelegate {
     func omdbAPIConnector(_ omdbAPIConnector:OMDbAPIConnector, didFindMovie movie:Movie?)
-    func omdbAPIConnector(_ omdbAPIConnector:OMDbAPIConnector, didFindMovieList movieList:[Movie])
+    func omdbAPIConnector(_ omdbAPIConnector:OMDbAPIConnector, didFindMovieList movieList:[Movie], forPage page:Int)
     func omdbAPIConnector(_ omdbAPIConnector:OMDbAPIConnector, didReceiveError error:Error)
 }

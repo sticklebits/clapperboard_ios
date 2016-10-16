@@ -222,7 +222,7 @@ extension SearchViewController: SearchHeaderDelegate {
         searchHeader.searchField.resignFirstResponder()
         searchResults.isLoading = true
         omdbAPI.searchForMovie(title: search, searchType: .multi)
-        searches.recent.insert(search, at: 0)
+        addRecentSearch(search)
     }
     
     func searchHeader(_ searchHeader: SearchHeaderTableViewCell, didTouchButton button: UIButton) {
@@ -270,7 +270,7 @@ extension SearchViewController: SearchHeaderStateDelegate {
             self.searchResults.view.alpha = 0.0
             }) { (finished) in
 
-                self.searchResults.movies = []
+                self.searchResults.clearMovies()
                 self.searchResults.view.removeFromSuperview()
                 
                 self.tableView.reloadData()
@@ -287,8 +287,8 @@ extension SearchViewController: SearchHeaderStateDelegate {
 
 extension SearchViewController: OMDbAPIConnectorDelegate {
     
-    func omdbAPIConnector(_ omdbAPIConnector: OMDbAPIConnector, didFindMovieList movieList: [Movie]) {
-        searchResults.movies = movieList
+    func omdbAPIConnector(_ omdbAPIConnector: OMDbAPIConnector, didFindMovieList movieList: [Movie], forPage page: Int) {
+        searchResults.set(movies: movieList, forPage: page)
         searchResults.isLoading = false
     }
     
@@ -313,6 +313,11 @@ extension SearchViewController: SearchResultsViewControllerDelegate {
     
     func searchResultsViewControllerDidCancel(viewController: SearchResultsViewController) {
         searchBar.cell?.state = .closed
+    }
+    
+    func searchResultsViewController(viewController: SearchResultsViewController, shouldFetchPage page: Int) {
+        if omdbAPI.isWorking { return }
+        omdbAPI.currentSearch(fetchPage: page)
     }
 }
 
