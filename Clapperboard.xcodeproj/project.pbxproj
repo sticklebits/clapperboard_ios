@@ -37,6 +37,10 @@
 		AA89A2131DA171950064D142 /* OMDbAPIConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA89A2121DA171950064D142 /* OMDbAPIConnector.swift */; };
 		AA89A2151DA17C8D0064D142 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA89A2141DA17C8D0064D142 /* Movie.swift */; };
 		AAC5690B1DA1D632008D8D4C /* MovieRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC5690A1DA1D632008D8D4C /* MovieRequest.swift */; };
+		AAE7CA0E1DB55BEC005E4F44 /* MovieCardTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE7CA0D1DB55BEC005E4F44 /* MovieCardTransition.swift */; };
+		AAE7CA101DB571D8005E4F44 /* UIViewControllerContextTransitioning+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE7CA0F1DB571D8005E4F44 /* UIViewControllerContextTransitioning+Extensions.swift */; };
+		AAE7CA141DB57877005E4F44 /* MovieCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE7CA121DB57877005E4F44 /* MovieCardViewController.swift */; };
+		AAE7CA151DB57877005E4F44 /* MovieCardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAE7CA131DB57877005E4F44 /* MovieCardViewController.xib */; };
 		F24F67371DAC1D7B00E2FFFC /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24F67361DAC1D7B00E2FFFC /* UIView+Extensions.swift */; };
 		F25052061DABCC0700930870 /* LargeHeadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25052051DABCC0700930870 /* LargeHeadingView.swift */; };
 		F25052081DABCC3500930870 /* LargeHeadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F25052071DABCC3500930870 /* LargeHeadingView.xib */; };
@@ -98,6 +102,10 @@
 		AA89A2121DA171950064D142 /* OMDbAPIConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OMDbAPIConnector.swift; path = API/OMDbAPIConnector.swift; sourceTree = "<group>"; };
 		AA89A2141DA17C8D0064D142 /* Movie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Movie.swift; path = Models/Movie.swift; sourceTree = "<group>"; };
 		AAC5690A1DA1D632008D8D4C /* MovieRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MovieRequest.swift; path = Models/MovieRequest.swift; sourceTree = "<group>"; };
+		AAE7CA0D1DB55BEC005E4F44 /* MovieCardTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MovieCardTransition.swift; path = Controllers/Transitions/MovieCardTransition.swift; sourceTree = "<group>"; };
+		AAE7CA0F1DB571D8005E4F44 /* UIViewControllerContextTransitioning+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewControllerContextTransitioning+Extensions.swift"; path = "Extensions/UIViewControllerContextTransitioning+Extensions.swift"; sourceTree = "<group>"; };
+		AAE7CA121DB57877005E4F44 /* MovieCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MovieCardViewController.swift; path = Controllers/MovieCardViewController.swift; sourceTree = "<group>"; };
+		AAE7CA131DB57877005E4F44 /* MovieCardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MovieCardViewController.xib; path = Controllers/MovieCardViewController.xib; sourceTree = "<group>"; };
 		F24F67361DAC1D7B00E2FFFC /* UIView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		F25052051DABCC0700930870 /* LargeHeadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LargeHeadingView.swift; path = Cells/LargeHeadingView.swift; sourceTree = "<group>"; };
 		F25052071DABCC3500930870 /* LargeHeadingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LargeHeadingView.xib; path = Cells/LargeHeadingView.xib; sourceTree = "<group>"; };
@@ -172,6 +180,8 @@
 		AA74346F1DB2F90D00BFB26C /* General Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				AAE7CA111DB57850005E4F44 /* Movie Card */,
+				AAE7CA0C1DB55BCC005E4F44 /* Transitions */,
 				AA27ED6B1DA23AFA000395B7 /* SearchResultsViewController.swift */,
 			);
 			name = "General Controllers";
@@ -291,11 +301,29 @@
 			name = "Request Models";
 			sourceTree = "<group>";
 		};
+		AAE7CA0C1DB55BCC005E4F44 /* Transitions */ = {
+			isa = PBXGroup;
+			children = (
+				AAE7CA0D1DB55BEC005E4F44 /* MovieCardTransition.swift */,
+			);
+			name = Transitions;
+			sourceTree = "<group>";
+		};
+		AAE7CA111DB57850005E4F44 /* Movie Card */ = {
+			isa = PBXGroup;
+			children = (
+				AAE7CA121DB57877005E4F44 /* MovieCardViewController.swift */,
+				AAE7CA131DB57877005E4F44 /* MovieCardViewController.xib */,
+			);
+			name = "Movie Card";
+			sourceTree = "<group>";
+		};
 		F24F67351DAC1D4500E2FFFC /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				F24F67361DAC1D7B00E2FFFC /* UIView+Extensions.swift */,
 				AA74346C1DB2B7D900BFB26C /* Array+Extensions.swift */,
+				AAE7CA0F1DB571D8005E4F44 /* UIViewControllerContextTransitioning+Extensions.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -448,6 +476,7 @@
 				AA7434751DB2FC4300BFB26C /* LoadingView.xib in Resources */,
 				AA1952081DB3DF3E001F5298 /* MovieCardView.xib in Resources */,
 				AA27ED801DA46AC8000395B7 /* LargeHeadingTableViewCell.xib in Resources */,
+				AAE7CA151DB57877005E4F44 /* MovieCardViewController.xib in Resources */,
 				AA27ED701DA2FEDC000395B7 /* MovieCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -474,11 +503,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA1952061DB3DF2F001F5298 /* MovieCardView.swift in Sources */,
+				AAE7CA0E1DB55BEC005E4F44 /* MovieCardTransition.swift in Sources */,
 				AA27ED821DA46E91000395B7 /* OLD_SearchViewController.swift in Sources */,
+				AAE7CA141DB57877005E4F44 /* MovieCardViewController.swift in Sources */,
 				AA89A2131DA171950064D142 /* OMDbAPIConnector.swift in Sources */,
 				F25052061DABCC0700930870 /* LargeHeadingView.swift in Sources */,
 				AA7434731DB2FC2F00BFB26C /* LoadingView.swift in Sources */,
 				AA27ED7B1DA45897000395B7 /* NominationsViewController.swift in Sources */,
+				AAE7CA101DB571D8005E4F44 /* UIViewControllerContextTransitioning+Extensions.swift in Sources */,
 				AA27ED841DAD788B000395B7 /* SearchViewController.swift in Sources */,
 				AA89A2111DA171290064D142 /* APIConnector.swift in Sources */,
 				AAC5690B1DA1D632008D8D4C /* MovieRequest.swift in Sources */,

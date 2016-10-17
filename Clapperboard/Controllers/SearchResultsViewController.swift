@@ -196,7 +196,11 @@ extension SearchResultsViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let movie = movies[indexPath] {
-            delegate?.searchResultsViewController(viewController: self, didSelectMovie: (movie: movie, image: imageStore.image(atIndexPath: indexPath)))
+            let image = imageStore.image(atIndexPath: indexPath)
+            let imageView = (collectionView.cellForItem(at: indexPath) as! MovieCollectionViewCell).moviePosterImageView!
+            let sourceRect = imageView.convert(imageView.bounds, to: UIApplication.shared.keyWindow!)
+            
+            delegate?.searchResultsViewController(viewController: self, didSelectMovie: (movie: movie, image: image, sourceRect: sourceRect))
         }
     }
     
@@ -213,6 +217,6 @@ extension SearchResultsViewController: UICollectionViewDelegate {
 
 protocol SearchResultsViewControllerDelegate {
     func searchResultsViewController(viewController: SearchResultsViewController, shouldFetchPage page: Int)
-    func searchResultsViewController(viewController: SearchResultsViewController, didSelectMovie meta: (movie: Movie, image: UIImage?))
+    func searchResultsViewController(viewController: SearchResultsViewController, didSelectMovie meta: (movie: Movie, image: UIImage?, sourceRect: CGRect?))
     func searchResultsViewControllerDidCancel(viewController: SearchResultsViewController)
 }

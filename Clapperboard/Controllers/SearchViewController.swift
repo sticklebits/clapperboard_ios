@@ -48,6 +48,8 @@ class SearchViewController: UIViewController {
     
     fileprivate let omdbAPI = OMDbAPIConnector()
     
+    fileprivate var movieCardTransition: MovieCardTransition?
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -308,32 +310,17 @@ extension SearchViewController: OMDbAPIConnectorDelegate {
 
 extension SearchViewController: SearchResultsViewControllerDelegate {
     
-    func searchResultsViewController(viewController: SearchResultsViewController, didSelectMovie meta: (movie: Movie, image: UIImage?)) {
+    func searchResultsViewController(viewController: SearchResultsViewController, didSelectMovie meta: (movie: Movie, image: UIImage?, sourceRect: CGRect?)) {
         
-        let movieViewController = UIAlertController(title: "", message: nil, preferredStyle: .actionSheet)
-        let movieView = UINib(nibName: "MovieCardView", bundle: nil).instantiate(withOwner: self, options: nil)[0] as! MovieCardView
+        let sourceRect = meta.sourceRect != nil ? meta.sourceRect! : UIScreen.main.bounds
         
-        movieView.movieImage.image = meta.image
-        movieView.movieImage.contentMode = .scaleAspectFill
-        movieView.movieTitleLabel.text = meta.movie.title
-        movieView.movieYearLabel.text = meta.movie.year
-        movieView.movieDescriptionLabel.text = meta.movie.description
+        let movieCardController = MovieCardViewController()
+        movieCardTransition = MovieCardTransition(image: meta.image!, startFrame: sourceRect, insets: UIEdgeInsets(top: 24.0, left: 24.0, bottom: 24.0, right: 24.0))
+        movieCardController.transitioningDelegate = movieCardTransition
+        movieCardController.modalPresentationStyle = .custom
+        movieCardController.movie = meta.movie
         
-        movieViewController.view.addSubview(movieView)
-        movieView.pin(insideView: movieViewController.view, insets: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 120.0, right: 0.0))
-    
-        let trailer = UIAlertAction(title: "Watch Trailer", style: .default) { (alertAction) in
-            print("Watch trailer for \(meta.movie.title)")
-        }
-        
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (alertAction) in
-            self.dismiss(animated: true, completion: nil)
-        }
-        
-        movieViewController.addAction(cancel)
-        movieViewController.addAction(trailer)
-        
-        present(movieViewController, animated: true, completion: nil)
+        present(movieCardController, animated: true, completion: nil)
     }
     
     func searchResultsViewControllerDidCancel(viewController: SearchResultsViewController) {
