@@ -205,6 +205,7 @@ extension SearchViewController: UITableViewDelegate {
         addRecentSearch(search)
         searchBar.cell?.searchField.text = search
         searchBar.cell?.state = .searchInput
+        searchResults.clearMovies()
         searchResults.isLoading = true
         omdbAPI.searchForMovie(title: search, searchType: .multi)
     }
@@ -214,15 +215,15 @@ extension SearchViewController: UITableViewDelegate {
 
 extension SearchViewController: SearchHeaderDelegate {
     
-    func searchHeader(_ searchHeader: SearchHeaderTableViewCell, didRequestSearch: String?) {
+    func searchHeader(_ searchHeader: SearchHeaderTableViewCell, didRequestSearch search: String?) {
         
-        let search = searchHeader.searchField.text!
         if search == "" { return }
         
+        searchResults.clearMovies()
         searchHeader.searchField.resignFirstResponder()
         searchResults.isLoading = true
-        omdbAPI.searchForMovie(title: search, searchType: .multi)
-        addRecentSearch(search)
+        omdbAPI.searchForMovie(title: search!, searchType: .multi)
+        addRecentSearch(search!)
     }
     
     func searchHeader(_ searchHeader: SearchHeaderTableViewCell, didTouchButton button: UIButton) {
@@ -372,6 +373,8 @@ extension SearchViewController {
 // MARK: - Helpers
 
 extension SearchViewController {
+    
+    
     
     func addRecentSearch(_ search: String) {
         if let existingIndex = searches.recent.index(of: search) {

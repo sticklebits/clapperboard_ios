@@ -138,7 +138,7 @@ extension SearchHeaderTableViewCell: UITextFieldDelegate {
 // MARK: - SearchHeaderDelegate Protocol
 
 protocol SearchHeaderDelegate {
-    func searchHeader(_ searchHeader: SearchHeaderTableViewCell, didRequestSearch: String?)
+    func searchHeader(_ searchHeader: SearchHeaderTableViewCell, didRequestSearch search: String?)
     func searchHeader(_ searchHeader: SearchHeaderTableViewCell, didTouchButton button: UIButton)
     func searchHeaderShouldUpdateState(_ searchHeader: SearchHeaderTableViewCell) -> SearchHeaderTableViewCell.State
 }
