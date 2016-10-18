@@ -43,7 +43,7 @@ extension MovieCardTransition: UIViewControllerTransitioningDelegate {
 extension MovieCardTransition: UIViewControllerAnimatedTransitioning {
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 0.25
+        return 0.5
     }
  
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
@@ -51,11 +51,6 @@ extension MovieCardTransition: UIViewControllerAnimatedTransitioning {
         let context = transitionContext.meta
  
         let screenBounds = UIScreen.main.bounds
-        
-        let toViewStartFrame = CGRect(x: screenBounds.minX + self.insets.left + 48.0,
-                                      y: screenBounds.minY + self.insets.top + 48.0,
-                                      width: screenBounds.width - self.insets.left - self.insets.right - 96.0,
-                                      height: screenBounds.height - self.insets.top - self.insets.bottom - 96.0)
         
         if context.isPresenting {
         
@@ -65,9 +60,7 @@ extension MovieCardTransition: UIViewControllerAnimatedTransitioning {
             
             context.container.addSubview((context.to.view)!)
             
-
-            
-            context.to.view.frame = toViewStartFrame
+            context.to.view.frame = startFrame
             context.to.view.alpha = 0.0
             
             imageView.frame = startFrame
